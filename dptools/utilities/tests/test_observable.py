@@ -28,14 +28,20 @@ class ObservableTest(unittest.TestCase):
         self.assertEqual(o.data, msg)
         self.assertEqual(o.get(), msg)
 
-    @unittest.expectedFailure
-    def test_callbacks_param(self):
+    # @unittest.expectedFailure
+    # def test_callbacks_param_default_has_callback(self):
+    #     """
+    #     Set callbacks param on obj.
+    #     The update_observers method is added as initial callback
+    #     on all observables.
+    #     """
+    #     self.assertEqual(len(self.o.callbacks), 1)
+
+    def test_callbacks_param_default_is_empty(self):
         """
-        Set callbacks param on obj.
-        The update_observers method is added as initial callback
-        on all observables.
+        Set callbacks param on obj
         """
-        self.assertEqual(len(self.o.callbacks), 1)
+        self.assertEqual(self.o.callbacks, {})
 
     def test_get(self):
         """Get should return current data"""
@@ -128,14 +134,6 @@ class ObservableTest(unittest.TestCase):
         self.o.add_observer(obs)
         self.assertIn(obs, self.o.observer_list)
 
-    @unittest.skip("This test was for previous functionality, replaced by new logic")
-    def test_add_observer_calls_set(self):
-        sub = self.o.set = MagicMock()
-        obs = MagicMock()
-        self.o.add_observer(obs)
-        current = self.o.get()
-        sub.assert_called_with(current)
-
     def test_add_observer_calls_set_on_observer_not_selfs_set(self):
         obs_mock = MagicMock()
         sub = obs_mock.set = MagicMock()
@@ -158,11 +156,6 @@ class ObservableTest(unittest.TestCase):
         self.o.add_observer(obs)
         self.o.set("HELLO THERE")
         self.assertTrue(obs.set.called)
-
-    @unittest.expectedFailure
-    def test_update_observers_is_callback(self):
-        # TODO: deprecate this check, observers may be separated from callbacks
-        self.assertIn(self.o.update_observers, self.o.callbacks)
 
 
 if __name__ == '__main__':
