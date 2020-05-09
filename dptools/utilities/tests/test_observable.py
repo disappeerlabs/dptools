@@ -28,15 +28,6 @@ class ObservableTest(unittest.TestCase):
         self.assertEqual(o.data, msg)
         self.assertEqual(o.get(), msg)
 
-    # @unittest.expectedFailure
-    # def test_callbacks_param_default_has_callback(self):
-    #     """
-    #     Set callbacks param on obj.
-    #     The update_observers method is added as initial callback
-    #     on all observables.
-    #     """
-    #     self.assertEqual(len(self.o.callbacks), 1)
-
     def test_callbacks_param_default_is_empty(self):
         """
         Set callbacks param on obj

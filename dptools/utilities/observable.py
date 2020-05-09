@@ -87,19 +87,9 @@ if __name__ == '__main__':
     o2 = Observable()
     o1.add_observer(o2)
 
-    # TODO: address logic issue
-    # When you add an observer, the observable used to be reset
-    # The above prints out the msg again because .set() is called tautologically
-    # and all callbacks are run.
-    # We don't need to run set for everyone
-    # When we update_observers, we call set on the observer with the output of self.get().
-    # Perhaps we only need to call set on the new observer
+    # When we add an observer, it is immediately set with the value of .get()
     assert o2.get() == o1.get()
     o1.set("hello world 2")
     assert o2.get() == o1.get()
 
-    # We set observers with the value of get
-    # When we update observer, we call observer's set method with value of get
-    # When we run callbacks, we call the func and pass in self as its arg
-    # Should we be passing in .get() instead of self? Yes
 
