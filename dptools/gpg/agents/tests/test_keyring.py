@@ -52,7 +52,6 @@ class TestKeyRingMethods(BaseTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path
-        # self.alt = "tests/data/altkeys"
         self.mal = {'type': 'pub',
                     'trust': 'u',
                     'length': '2048',
