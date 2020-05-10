@@ -12,6 +12,7 @@ import tkinter
 from dptools.utilities import applogger
 from dptools.tkcomponents.toyapp import toyappcontroller
 
+# Todo: add docs for toyapp
 
 class ToyApp:
     title = 'ToyApp'
