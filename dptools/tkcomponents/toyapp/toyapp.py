@@ -11,7 +11,6 @@ import sys
 import tkinter
 from dptools.utilities import applogger
 from dptools.tkcomponents.toyapp import toyappcontroller
-from dptools.tkcomponents.toyapp import toyappview
 
 
 class ToyApp:
@@ -21,16 +20,12 @@ class ToyApp:
         self.title = self.title
         self.root = tkinter.Tk()
         self.log = self.config_logger()
-        self.view = toyappview.ToyAppView(self.root)
-        self.controller = toyappcontroller.ToyAppController(self.root, self.view)
+        self.controller = toyappcontroller.ToyAppController(self.root)
 
     def config_logger(self):
-        # TODO: enable logging to file, requires dirmaker to create files first
-        # log_file = settings.default_log_file_path
-        # log = applogger.AppLogger(self.title, file=log_file).create()
         log = applogger.AppLogger(self.title).create()
         sys.excepthook = log.handle_uncaught_system_exception
-        # self.root.report_callback_exception = log.handle_uncaught_tkinter_exception
+        self.root.report_callback_exception = log.handle_uncaught_tkinter_exception
         return log
 
     def run(self):

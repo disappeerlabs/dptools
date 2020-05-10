@@ -23,18 +23,43 @@ class DebugController:
         # Add the widget to the parent
         self.parent_widget.add_widget_to_grid(self.view)
 
-        self.config_actions()
+        self.config_default_actions()
         self.log = logging.getLogger(app_title)
 
-    def config_actions(self):
+    def config_default_actions(self):
         self.view.config_event_bindings(self.click_debug_1_action, self.click_debug_2_action)
+
+    #####################
+    #  Button 1 Methods #
+    #####################
 
     def click_debug_1_action(self, event):
         self.log.debug("Debug button 1 clicked")
-        self.log.debug(dir(event.widget))
 
         from dptools.tkcomponents.popuplauncher import launch_popup, alertbox
         r = launch_popup(alertbox, self.root, "is this thing on?")
+        self.append_to_textbox("Hello there")
+
+    def click_debug_1_override(self, func):
+        self.view.button_1_bind(func)
+
+    #####################
+    #  Button 2 Methods #
+    #####################
 
     def click_debug_2_action(self, event):
         self.log.debug("Debug button 2 clicked")
+        self.print_to_textbox('')
+
+    def click_debug_2_override(self, func):
+        self.view.button_2_bind(func)
+
+    ####################
+    #  Textbox Methods #
+    ####################
+
+    def print_to_textbox(self, msg):
+        self.view.print_to_debug(msg)
+
+    def append_to_textbox(self, msg):
+        self.view.append_to_debug(msg)

@@ -7,7 +7,7 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-from dptools.tkcomponents.debugwidget import debugcontroller, debugframe
+from dptools.tkcomponents.debugwidget import debugcontroller
 
 
 def initialize(root, parent_widget):

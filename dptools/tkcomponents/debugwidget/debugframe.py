@@ -26,6 +26,10 @@ class DebugFrame(tkinter.Frame):
         self.debug_button_1 = self.config_button_1()
         self.debug_button_2 = self.config_button_2()
 
+    ###################
+    #  Button Methods #
+    ###################
+
     def config_button_1(self):
         debug_button = ttk.Button(self, text="Debug One")
         debug_button.grid(row=1, column=0, sticky=styling.sticky_ew, padx=(5, 0), pady=(10, 5))
@@ -35,6 +39,20 @@ class DebugFrame(tkinter.Frame):
         debug_button_2 = ttk.Button(self, text="Debug Two")
         debug_button_2.grid(row=2, column=0, sticky=styling.sticky_ew, padx=(5, 0), pady=(10, 5))
         return debug_button_2
+
+    def config_event_bindings(self, debug_button_1_action, debug_button_2_action):
+        self.button_1_bind(debug_button_1_action)
+        self.button_2_bind(debug_button_2_action)
+
+    def button_1_bind(self, debug_button_1_action):
+        self.debug_button_1.bind("<ButtonRelease-1>", debug_button_1_action)
+
+    def button_2_bind(self, debug_button_2_action):
+        self.debug_button_2.bind("<ButtonRelease-1>", debug_button_2_action)
+
+    ####################
+    #  Textbox Methods #
+    ####################
 
     def config_text_box(self):
         debug_text_box = tkinter.Text(self, **styling.debug_text_area)
@@ -54,7 +72,3 @@ class DebugFrame(tkinter.Frame):
         """
         self.debug_text_box.insert('end', msg + "\n")
         self.debug_text_box.see('end')
-
-    def config_event_bindings(self, debug_button_1_action, debug_button_2_action):
-        self.debug_button_1.bind("<ButtonRelease-1>", debug_button_1_action)
-        self.debug_button_2.bind("<ButtonRelease-1>", debug_button_2_action)

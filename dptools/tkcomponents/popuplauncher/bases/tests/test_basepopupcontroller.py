@@ -37,9 +37,6 @@ class FakePopUpControllerClassNoConfig(basepopupcontroller.BasePopupController):
     def title(self):
         return 'Default Base Title'
 
-    def config_event_bindings(self):
-        pass
-
 
 class TestBaseControllerBasics(unittest.TestCase):
 
@@ -120,7 +117,7 @@ class TestBaseControllerBasics(unittest.TestCase):
         check = hasattr(self.x, name)
         self.assertTrue(check)
 
-    def test_config_event_bindings_method_is_abstract(self):
+    def test_config_event_bindings_method_is_abstract_raises_error_without_config_method(self):
         with self.assertRaises(TypeError):
             x = FakePopUpControllerClassNoConfig(self.root)
 
