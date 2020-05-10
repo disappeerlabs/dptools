@@ -56,14 +56,11 @@ class TestVerifierClass(common.BaseTestClass):
             verify_detached = self.x.execute(tmp_file.name, data)
         self.assertTrue(verify_detached.valid)
 
-    @unittest.skip("Unexpected failure, common logic or setup error possible")
     def test_execute_method_not_valid(self):
-        """
-        Todo: investigate unexpected result in this test
-        """
+        # Use alt key dir path for signer to make test pass
+        self.s = signer.Signer(self.alt_key_dir_path)
         self.message = "Hello world."
         self.passphrase = 'passsphrase'
-        self.s = signer.Signer(self.keydir)
         sig = self.s.execute(self.message, self.key_fingerprint, self.passphrase, detach=True)
         data = bytes(self.message, 'utf-8')
         with tempfile.NamedTemporaryFile() as tmp_file:
