@@ -47,6 +47,7 @@ class TestKeyDeleterClassBasics(unittest.TestCase):
         self.assertTrue(check)
 
 
+@unittest.skip("Skip key deletion, requires lengthy key creation")
 class TestKeyDeleterClassLongRunning(unittest.TestCase):
 
     def setUp(self):
@@ -60,7 +61,6 @@ class TestKeyDeleterClassLongRunning(unittest.TestCase):
     def tearDown(self):
         self.keydir_obj.cleanup()
 
-    @unittest.skip("Skip key deletion, requires lengthy key creation")
     def test_execute_method(self):
         before = self.d.gpg.list_keys()
         before_len = len(before)
