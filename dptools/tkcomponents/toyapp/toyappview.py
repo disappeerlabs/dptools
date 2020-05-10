@@ -1,7 +1,7 @@
 """
 toyappview.py	
 
-> ENTER DESCRIPTION HERE
+Root view for the toy app tkinter GUI
 
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3

@@ -1,7 +1,7 @@
 """
 toyappcontroller.py	
 
-> ENTER DESCRIPTION HERE
+Controller class for toy app
 
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3

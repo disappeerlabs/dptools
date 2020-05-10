@@ -1,7 +1,7 @@
 """
 debugcontroller.py	
 
-> ENTER DESCRIPTION HERE
+Controller for Debug Widget
 
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3
