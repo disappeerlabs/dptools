@@ -49,7 +49,7 @@ class TestVerifierClass(common.BaseTestClass):
         Investigate for common test setup error as in other agent test modules
         """
         self.message = "Hello world."
-        self.passphrase = 'passXXXXXXphrase'
+        self.passphrase = 'passphrase'
         self.s = signer.Signer(self.keydir)
         sig = self.s.execute(self.message, self.key_fingerprint, self.passphrase)
         result = self.v.execute(str(sig))

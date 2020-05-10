@@ -55,7 +55,6 @@ class TestSignerClass(common.BaseTestClass):
         self.message = "Hello world."
         self.passphrase = 'xxxyyy'
         result = self.s.execute(self.message, self.key_fingerprint, self.passphrase)
-        # result = self.s.execute(self.message, None, None)
         self.assertEqual(0, len(str(result)))
 
     def test_execute_method_valid_detached(self):
