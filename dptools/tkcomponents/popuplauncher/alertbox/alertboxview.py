@@ -9,11 +9,9 @@ License: GPLv3
 
 import tkinter
 import tkinter.ttk as ttk
-from disappeer.constants import constants
-from disappeer.constants import styling
+from dptools.static import styling
 import logging
 
-log = logging.getLogger(constants.title)
 
 
 class AlertBoxView:

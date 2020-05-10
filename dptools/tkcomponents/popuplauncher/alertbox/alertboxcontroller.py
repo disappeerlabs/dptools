@@ -7,8 +7,8 @@ Copyright (C) 2018 Disappeer Labs
 License: GPLv3
 """
 
-from disappeer.popups.alertbox import alertboxview
-from disappeer.popups.bases import basepopupcontroller
+from dptools.tkcomponents.popuplauncher.alertbox import alertboxview
+from dptools.tkcomponents.popuplauncher.bases import basepopupcontroller
 
 
 class AlertBoxController(basepopupcontroller.BasePopupController):

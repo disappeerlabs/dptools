@@ -17,4 +17,4 @@ class ToyAppController:
         self.root = root
         self.log = logging.getLogger('ToyApp')
         self.root_view = root_view
-        self.debug_widget = debugwidget.initialize(self.root_view.main_frame)
+        self.debug_widget = debugwidget.initialize(self.root, self.root_view.main_frame)
