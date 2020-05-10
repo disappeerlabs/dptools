@@ -9,9 +9,8 @@ License: GPLv3
 
 import unittest
 from unittest.mock import MagicMock, patch
-from disappeer.popups.alertbox import alertboxview
-from disappeer.popups.bases import basepopupcontroller
-from disappeer.popups.alertbox import alertboxcontroller
+from dptools.tkcomponents.popuplauncher.alertbox import alertboxview, alertboxcontroller
+from dptools.tkcomponents.popuplauncher.bases import basepopupcontroller
 import tkinter
 
 

@@ -33,9 +33,8 @@ class DebugController:
         self.log.debug("Debug button 1 clicked")
         self.log.debug(dir(event.widget))
 
-        from dptools.tkcomponents import popuplauncher
-        from dptools.tkcomponents.popuplauncher import alertbox
-        r = popuplauncher.launch_popup(alertbox, self.root, "is this thing on?")
+        from dptools.tkcomponents.popuplauncher import launch_popup, alertbox
+        r = launch_popup(alertbox, self.root, "is this thing on?")
 
     def click_debug_2_action(self, event):
         self.log.debug("Debug button 2 clicked")

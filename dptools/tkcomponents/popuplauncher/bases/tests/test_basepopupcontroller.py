@@ -8,8 +8,8 @@ License: GPLv3
 """
 
 import unittest
-from unittest.mock import MagicMock, patch
-from disappeer.popups.bases import basepopupcontroller
+from unittest.mock import MagicMock
+from dptools.tkcomponents.popuplauncher.bases import basepopupcontroller
 import tkinter
 import abc
 
@@ -25,17 +25,21 @@ class TestImports(unittest.TestCase):
 
 class FakePopUpControllerClass(basepopupcontroller.BasePopupController):
 
-    def config_event_bindings(self):
-        pass
-
     def title(self):
         return 'Default Base Title'
+
+    def config_event_bindings(self):
+        pass
 
 
 class FakePopUpControllerClassNoConfig(basepopupcontroller.BasePopupController):
 
     def title(self):
         return 'Default Base Title'
+
+    def config_event_bindings(self):
+        pass
+
 
 class TestBaseControllerBasics(unittest.TestCase):
 
