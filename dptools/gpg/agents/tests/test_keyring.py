@@ -8,11 +8,10 @@ License: GPLv3
 """
 
 import unittest
-import os
 import gnupg
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.agents import keyring
-from dptools.gpg.tests.data import keys, altkeys
+from dptools.tests import basetestclass
 
 
 class TestImports(unittest.TestCase):
@@ -21,15 +20,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, keyring.gpgagent)
 
 
-class BaseTestClass(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        cls.key_dir_path = os.path.dirname(keys.__file__)
-        cls.alt_key_dir_path = os.path.dirname(altkeys.__file__)
-
-
-class TestKeyRingBasics(BaseTestClass):
+class TestKeyRingBasics(basetestclass.BaseTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path
@@ -48,7 +39,7 @@ class TestKeyRingBasics(BaseTestClass):
         self.assertIsInstance(self.k.gpg, gnupg.GPG)
 
 
-class TestKeyRingMethods(BaseTestClass):
+class TestKeyRingMethods(basetestclass.BaseTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path

@@ -8,6 +8,8 @@ License: GPLv3
 """
 
 import unittest
+
+import dptools.tests.basetestclass
 from dptools.gpg.agents import detachedverifier
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.agents import signer
@@ -21,7 +23,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, detachedverifier.gpgagent)
 
 
-class TestVerifierClass(common.BaseTestClass):
+class TestVerifierClass(dptools.tests.basetestclass.BaseTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path

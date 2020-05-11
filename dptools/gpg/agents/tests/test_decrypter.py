@@ -8,6 +8,7 @@ License: GPLv3
 """
 
 import unittest
+import dptools.tests.basetestclass
 from dptools.gpg.agents import decrypter
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.agents import encrypter
@@ -20,7 +21,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, decrypter.gpgagent)
 
 
-class TestDecrypterClass(common.BaseTestClass):
+class TestDecrypterClass(dptools.tests.basetestclass.BaseTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path
