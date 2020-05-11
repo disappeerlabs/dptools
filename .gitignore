@@ -7,4 +7,4 @@ reports/
 __pycache__/
 *.egg-info/
 venv/
-clean_venv/
+venv_clean/
