@@ -12,14 +12,15 @@ import tkinter
 from dptools.utilities import applogger
 from dptools.tkcomponents.toyapp import toyappcontroller
 
-# Todo: add docs for toyapp
 
 class ToyApp:
+    # Todo: add docs for toyapp
     title = 'ToyApp'
 
     def __init__(self):
         self.title = self.title
         self.root = tkinter.Tk()
+        self.root.title(self.title)
         self.log = self.config_logger()
         self.controller = toyappcontroller.ToyAppController(self.root)
 

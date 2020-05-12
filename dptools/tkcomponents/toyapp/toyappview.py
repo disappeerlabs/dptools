@@ -19,7 +19,6 @@ class ToyAppView:
         # Configure root
         self.root = root
         self.root.minsize(200, 200)
-        self.root.title('ToyApp')
         self.root.rowconfigure(0, weight=1)
         self.root.columnconfigure(0, weight=1)
 

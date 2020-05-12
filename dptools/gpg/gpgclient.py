@@ -3,16 +3,12 @@ gpgclient.py
 
 Module for GPGClient class object
 
-Copyright (C) 2018 Disappeer Labs
+Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-from dptools.gpg.agents import keyring
+from dptools.gpg.agents import keyring, encrypter, decrypter, signer, verifier
 from dptools.gpg.helpers import keyfinder
-from dptools.gpg.agents import encrypter
-from dptools.gpg.agents import decrypter
-from dptools.gpg.agents import signer
-from dptools.gpg.agents import verifier
 
 
 class GPGClient:
