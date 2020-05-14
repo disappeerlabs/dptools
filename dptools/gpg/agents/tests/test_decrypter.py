@@ -8,25 +8,20 @@ License: GPLv3
 """
 
 import unittest
-import os
-from dptools.gpg.agents import decrypter
-from dptools.gpg.agents import gpgagent
-from dptools.gpg.agents import encrypter
-from dptools.gpg.tests import basegpgtestclass
-
-
-class TestImports(unittest.TestCase):
-
-    def test_gpg_agent_import(self):
-        self.assertEqual(gpgagent, decrypter.gpgagent)
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
+from dptools.gpg.agents import decrypter, gpgagent, encrypter
 
 
 class TestDecrypterClass(unittest.TestCase):
 
     def setUp(self):
-        self.key_master = basegpgtestclass.SetUpKeys()
+        self.key_master = helpers.SetUpKeys()
         self.keydir = self.key_master.alice_dir_path
         self.d = decrypter.Decrypter(self.keydir)
+
+    def test_gpg_agent_import(self):
+        self.assertEqual(gpgagent, decrypter.gpgagent)
 
     def test_instance(self):
         self.assertIsInstance(self.d, decrypter.Decrypter)
@@ -44,7 +39,15 @@ class TestDecrypterClass(unittest.TestCase):
         check = hasattr(self.d, name)
         self.assertTrue(check)
 
-    @unittest.skipIf(not os.getenv('slow'), 'Skip if slow flag not set in env')
+
+@unittest.skipIf(*mark.slow)
+class TestDecrypterClassSlow(unittest.TestCase):
+
+    def setUp(self):
+        self.key_master = helpers.SetUpKeys()
+        self.keydir = self.key_master.alice_dir_path
+        self.d = decrypter.Decrypter(self.keydir)
+
     def test_decrypt_message_result_valid_passphrase(self):
         self.key_master.set_up_alice()
         fingerprint = self.key_master.alice_key['fingerprint']
@@ -57,7 +60,6 @@ class TestDecrypterClass(unittest.TestCase):
         result = self.d.execute(self.ciphertext, self.passphrase)
         self.assertTrue(result.ok)
 
-    @unittest.skipIf(not os.getenv('slow'), 'Skip if slow flag not set in env')
     def test_decrypt_message_result_not_valid_passphrase(self):
         self.key_master.set_up_alice()
         fingerprint = self.key_master.alice_key['fingerprint']
