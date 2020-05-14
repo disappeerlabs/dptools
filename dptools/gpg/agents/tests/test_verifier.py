@@ -9,7 +9,7 @@ License: GPLv3
 
 import unittest
 
-import dptools.tests.basetestclass
+import dptools.gpg.tests.basegpgtestclass
 from dptools.gpg.agents import verifier
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.agents import signer
@@ -22,7 +22,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, verifier.gpgagent)
 
 
-class TestVerifierClass(dptools.tests.basetestclass.BaseTestClass):
+class TestVerifierClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path

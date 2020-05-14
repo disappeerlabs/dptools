@@ -7,11 +7,11 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-import unittest
 from dptools.gpg.helpers import keylistformatter
 from dptools.gpg.agents import keyring
-from dptools.gpg.tests.data import common, keys
-from dptools.tests import basetestclass
+from dptools.gpg.tests.data import common
+from dptools.gpg.tests import basegpgtestclass
+
 
 # key_dir = 'tests/data/keys'
 
@@ -24,7 +24,7 @@ from dptools.tests import basetestclass
 # raw_key_list = key_ring.get_raw_key_list()
 
 
-class TestKeyListFormatterBasics(basetestclass.BaseTestClass):
+class TestKeyListFormatterBasics(basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.key_dir = self.key_dir_path

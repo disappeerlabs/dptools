@@ -6,13 +6,13 @@ Test suite for the KeyFinder module and class
 Copyright (C) 2018 Disappeer Labs
 License: GPLv3
 """
-import dptools.tests.basetestclass
+import dptools.gpg.tests.basegpgtestclass
 from dptools.gpg.helpers import keyfinder
 from dptools.gpg.agents import keyring
 from dptools.gpg.tests.data import common
 
 
-class TestKeyFinderClass(dptools.tests.basetestclass.BaseTestClass):
+class TestKeyFinderClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.mal = {'type': 'pub',

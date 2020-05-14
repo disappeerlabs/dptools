@@ -13,8 +13,8 @@ from dptools.gpg.helpers import passphrasevalidator
 # from dptools.models import gpgdatacontext
 from dptools.gpg.agents import signer
 from dptools.gpg.agents import verifier
-from dptools.gpg.tests.data import common, keys
-from dptools.tests import basetestclass
+from dptools.gpg.tests.data import common
+from dptools.gpg.tests import basegpgtestclass
 
 
 class TestImports(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(verifier, passphrasevalidator.verifier)
 
 
-class TestClassBasics(basetestclass.BaseTestClass):
+class TestClassBasics(basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.maxDiff = None

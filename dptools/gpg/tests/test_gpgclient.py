@@ -9,7 +9,7 @@ License: GPLv3
 
 import unittest
 from unittest.mock import MagicMock, patch
-from dptools.tests import basetestclass
+from dptools.gpg.tests import basegpgtestclass
 from dptools.gpg import gpgclient
 from dptools.gpg.agents import keyring
 from dptools.gpg.agents import encrypter
@@ -41,7 +41,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(verifier, gpgclient.verifier)
 
 
-class TestGPGClientClassBasics(basetestclass.BaseTestClass):
+class TestGPGClientClassBasics(basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.alt_key_dir = self.alt_key_dir_path

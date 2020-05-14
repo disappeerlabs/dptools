@@ -8,9 +8,8 @@ License: GPLv3
 """
 
 import unittest
-import os
 
-import dptools.tests.basetestclass
+import dptools.gpg.tests.basegpgtestclass
 from dptools.gpg.agents import signer
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.tests.data import common
@@ -22,7 +21,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, signer.gpgagent)
 
 
-class TestSignerClass(dptools.tests.basetestclass.BaseTestClass):
+class TestSignerClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path

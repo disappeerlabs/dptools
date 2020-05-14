@@ -8,11 +8,11 @@ License: GPLv3
 """
 
 import unittest
-import dptools.tests.basetestclass
+import os
 from dptools.gpg.agents import decrypter
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.agents import encrypter
-from dptools.gpg.tests.data import common
+from dptools.gpg.tests import basegpgtestclass
 
 
 class TestImports(unittest.TestCase):
@@ -21,11 +21,11 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, decrypter.gpgagent)
 
 
-class TestDecrypterClass(dptools.tests.basetestclass.BaseTestClass):
+class TestDecrypterClass(unittest.TestCase):
 
     def setUp(self):
-        self.keydir = self.key_dir_path
-        self.key_fingerprint = common.current_key_fingerprint_keys_dir_ring
+        self.key_master = basegpgtestclass.SetUpKeys()
+        self.keydir = self.key_master.alice_dir_path
         self.d = decrypter.Decrypter(self.keydir)
 
     def test_instance(self):
@@ -44,21 +44,27 @@ class TestDecrypterClass(dptools.tests.basetestclass.BaseTestClass):
         check = hasattr(self.d, name)
         self.assertTrue(check)
 
+    @unittest.skipIf(not os.getenv('slow'), 'Skip if slow flag not set in env')
     def test_decrypt_message_result_valid_passphrase(self):
+        self.key_master.set_up_alice()
+        fingerprint = self.key_master.alice_key['fingerprint']
+
         self.encrypter = encrypter.Encrypter(self.keydir)
         self.message = "Hello world."
-        encrypt_result = self.encrypter.execute(self.message, self.key_fingerprint)
+        encrypt_result = self.encrypter.execute(self.message, fingerprint)
         self.ciphertext = str(encrypt_result)
         self.passphrase = 'passphrase'
         result = self.d.execute(self.ciphertext, self.passphrase)
         self.assertTrue(result.ok)
 
+    @unittest.skipIf(not os.getenv('slow'), 'Skip if slow flag not set in env')
     def test_decrypt_message_result_not_valid_passphrase(self):
-        # Follow Up: confirm issue has been resolved
-        # Encrypt with agent from the alternate key directory
-        self.encrypter = encrypter.Encrypter(self.alt_key_dir_path)
+        self.key_master.set_up_alice()
+        fingerprint = self.key_master.alice_key['fingerprint']
+
+        self.encrypter = encrypter.Encrypter(self.keydir)
         self.message = "Hello world."
-        encrypt_result = self.encrypter.execute(self.message, self.key_fingerprint)
+        encrypt_result = self.encrypter.execute(self.message, fingerprint)
         self.ciphertext = str(encrypt_result)
         self.passphrase = 'passphddddrase'
         result = self.d.execute(self.ciphertext, self.passphrase)

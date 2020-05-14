@@ -11,7 +11,7 @@ import unittest
 import gnupg
 from dptools.gpg.agents import gpgagent
 from dptools.gpg.agents import keyring
-from dptools.tests import basetestclass
+from dptools.gpg.tests import basegpgtestclass
 
 
 class TestImports(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestImports(unittest.TestCase):
         self.assertEqual(gpgagent, keyring.gpgagent)
 
 
-class TestKeyRingBasics(basetestclass.BaseTestClass):
+class TestKeyRingBasics(basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path
@@ -39,7 +39,7 @@ class TestKeyRingBasics(basetestclass.BaseTestClass):
         self.assertIsInstance(self.k.gpg, gnupg.GPG)
 
 
-class TestKeyRingMethods(basetestclass.BaseTestClass):
+class TestKeyRingMethods(basegpgtestclass.BaseGPGTestClass):
 
     def setUp(self):
         self.keydir = self.key_dir_path
