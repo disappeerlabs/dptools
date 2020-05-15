@@ -21,6 +21,7 @@ alice_key_vals_dict = {"Name": "alice",
                        "Expire Date": "2030-04-01",
                        "Passphrase": "passphrase"
                        }
+
 bob_key_vals_dict = {"Name": "bob",
                      "Email": "bob@email.com",
                      "Comment": "bob comment message",
@@ -32,6 +33,7 @@ bob_key_vals_dict = {"Name": "bob",
                      "Expire Date": "2030-04-01",
                      "Passphrase": "passphrase"
                      }
+
 key_reference_dict = {"Name": "name_real",
                       "Email": "name_email",
                       "Comment": "name_comment",
@@ -60,6 +62,7 @@ def create_key_input_dict(key_ref_dict, key_input_val_dict):
 class SetUpKeys:
 
     passphrase = 'passphrase'
+    bad_passphrase = 'XXX666XXX'
 
     def __init__(self):
         self.temp_dir_alice = tempfile.TemporaryDirectory()

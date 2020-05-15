@@ -18,4 +18,3 @@ class DetachedVerifier(gpgagent.GPGAgent):
     def execute(self, path_to_sig_file, data_bytestring):
         result = self.gpg.verify_data(path_to_sig_file, data_bytestring)
         return result
-
