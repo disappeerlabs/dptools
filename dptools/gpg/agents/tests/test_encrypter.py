@@ -8,34 +8,19 @@ License: GPLv3
 """
 
 import unittest
-import os
 from unittest.mock import MagicMock
-from dptools.gpg.agents import encrypter
-from dptools.gpg.agents import gpgagent
-from dptools.gpg.tests.data import keys, altkeys
+from dptools.gpg.agents import encrypter, gpgagent
 
 
-class TestImports(unittest.TestCase):
+class TestKeyMakerClass(unittest.TestCase):
+
+    def setUp(self):
+        self.key_fingerprint = 'xxxxx'
+        self.message = "Hello world."
+        self.e = encrypter.Encrypter(None)
 
     def test_gpgagent_import(self):
         self.assertEqual(gpgagent, encrypter.gpgagent)
-
-
-class BaseTestClass(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        cls.key_dir_path = os.path.dirname(keys.__file__)
-        cls.alt_key_dir_path = os.path.dirname(altkeys.__file__)
-
-
-class TestKeyMakerClass(BaseTestClass):
-
-    def setUp(self):
-        self.keydir = self.key_dir_path
-        self.key_fingerprint = 'xxxxx'
-        self.message = "Hello world."
-        self.e = encrypter.Encrypter(self.keydir)
 
     def test_instance(self):
         self.assertIsInstance(self.e, encrypter.Encrypter)
