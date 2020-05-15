@@ -13,6 +13,8 @@ from dptools.gpg.agents import gpgagent
 
 command_list = constants.command_list
 
+# TODO: Refactor KeyCreator to remove threading or add ability to bypass threading
+
 
 class KeyCreator(gpgagent.GPGAgent):
 

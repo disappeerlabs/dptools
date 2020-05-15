@@ -8,27 +8,19 @@ License: GPLv3
 """
 
 import unittest
-import tempfile
-from dptools.gpg.agents.tests.test_keycreator import create_key_input_dict, new_key_default_vals_dict, new_key_input_dict
-from dptools.gpg.agents import keydeleter, keycreator
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
+from dptools.gpg.agents import keydeleter
 from dptools.gpg.agents import gpgagent
-
-
-class TestImports(unittest.TestCase):
-
-    def test_gpgagent(self):
-        self.assertEqual(gpgagent, keydeleter.gpgagent)
 
 
 class TestKeyDeleterClassBasics(unittest.TestCase):
 
     def setUp(self):
-        self.keydir_obj = tempfile.TemporaryDirectory()
-        self.keydir = self.keydir_obj.name
-        self.d = keydeleter.KeyDeleter(self.keydir)
+        self.d = keydeleter.KeyDeleter(None)
 
-    def tearDown(self):
-        self.keydir_obj.cleanup()
+    def test_gpgagent_import(self):
+        self.assertEqual(gpgagent, keydeleter.gpgagent)
 
     def test_instance(self):
         self.assertIsInstance(self.d, keydeleter.KeyDeleter)
@@ -47,25 +39,27 @@ class TestKeyDeleterClassBasics(unittest.TestCase):
         self.assertTrue(check)
 
 
-@unittest.skip("Skip key deletion, requires lengthy key creation")
+@unittest.skipIf(*mark.slow)
 class TestKeyDeleterClassLongRunning(unittest.TestCase):
 
     def setUp(self):
-        self.keydir_obj = tempfile.TemporaryDirectory()
-        self.keydir = self.keydir_obj.name
+        self.key_master = helpers.SetUpKeys()
+        self.key_master.set_up_alice()
+        self.fingerprint = self.key_master.alice_key['fingerprint']
+        self.keydir = self.key_master.alice_dir_path
         self.d = keydeleter.KeyDeleter(self.keydir)
-        key_input_dict = create_key_input_dict(new_key_input_dict, new_key_default_vals_dict)
-        input_data = self.d.gpg.gen_key_input(**key_input_dict)
-        result = self.d.gpg.gen_key(input_data)
 
-    def tearDown(self):
-        self.keydir_obj.cleanup()
+    def test_execute_method_delete_own_secret_key(self):
+        before_len = len(self.d.gpg.list_keys())
+        result = self.d.execute(self.fingerprint, secret=True, passphrase=self.key_master.passphrase)
+        after_len = len(self.d.gpg.list_keys())
+        self.assertEqual(after_len - before_len, -1)
 
-    def test_execute_method(self):
-        before = self.d.gpg.list_keys()
-        before_len = len(before)
-        target = before[0]['fingerprint']
-        result = self.d.execute(target, secret=True, passphrase='passphrase')
-        after = self.d.gpg.list_keys()
-        after_len = len(after)
+    def test_execute_method_delete_others_key(self):
+        self.key_master.set_up_bob()
+        self.key_master.alice_gpg.import_keys(self.key_master.bob_export)
+        bob_fingerprint = self.key_master.bob_key['fingerprint']
+        before_len = len(self.d.gpg.list_keys())
+        result = self.d.execute(bob_fingerprint)
+        after_len = len(self.d.gpg.list_keys())
         self.assertEqual(after_len - before_len, -1)
