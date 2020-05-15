@@ -59,6 +59,8 @@ def create_key_input_dict(key_ref_dict, key_input_val_dict):
 
 class SetUpKeys:
 
+    passphrase = 'passphrase'
+
     def __init__(self):
         self.temp_dir_alice = tempfile.TemporaryDirectory()
         self.alice_dir_path = self.temp_dir_alice.name

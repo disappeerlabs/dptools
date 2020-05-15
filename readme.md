@@ -20,3 +20,9 @@ Examples:
  - etc.
  
  To be used as basis for planned DP rebuild. 
+ 
+ # Notes
+ 
+ Add slow flag to run all tests:
+ 
+ `slow=1 python -m unittest gpg/agents/tests/test_decrypter.py -v` 
