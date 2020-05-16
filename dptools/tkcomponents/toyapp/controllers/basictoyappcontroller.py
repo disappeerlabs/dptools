@@ -7,18 +7,13 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-import logging
-from dptools.tkcomponents.toyapp import toyappview
-from dptools.tkcomponents import debugwidget
+from dptools.tkcomponents.toyapp.controllers import basecontroller
 
 
-class BasicToyAppController:
+class BasicToyAppController(basecontroller.BaseController):
 
     def __init__(self, root):
-        self.root = root
-        self.root_view = toyappview.ToyAppView(self.root)
-        self.log = logging.getLogger('ToyApp')
-        self.debug_widget = debugwidget.initialize(self.root, self.root_view.main_frame)
+        super().__init__(root)
         self.debug_widget.click_debug_2_override(self.override)
 
     def override(self, event):
