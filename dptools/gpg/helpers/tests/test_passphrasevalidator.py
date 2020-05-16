@@ -9,33 +9,33 @@ License: GPLv3
 """
 
 import unittest
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
 from dptools.gpg.helpers import passphrasevalidator
-# from dptools.models import gpgdatacontext
-from dptools.gpg.agents import signer
-from dptools.gpg.agents import verifier
-from dptools.gpg.tests.data import common
-from dptools.gpg.tests import basegpgtestclass
+from dptools.gpg.agents import signer, verifier
 
 
-class TestImports(unittest.TestCase):
+@unittest.skipIf(*mark.slow)
+class TestClassBasics(unittest.TestCase):
 
-    def test_signer(self):
-        self.assertEqual(signer, passphrasevalidator.signer)
-
-    def test_verifier(self):
-        self.assertEqual(verifier, passphrasevalidator.verifier)
-
-
-class TestClassBasics(basegpgtestclass.BaseGPGTestClass):
+    @classmethod
+    def setUpClass(cls):
+        cls.key_master = helpers.SetUpKeys()
+        cls.key_master.set_up_alice()
 
     def setUp(self):
         self.maxDiff = None
-        self.test_key_dir = self.key_dir_path
-        self.home_dir = self.key_dir_path
-        self.host_key_id = common.current_key_keyid_keys_dir_ring
+        self.home_dir = self.key_master.alice_dir_path
+        self.host_key_id = self.key_master.alice_key['keyid']
         self.passphrase = 'passphrase'
         self.msg = 'hello world'
         self.x = passphrasevalidator.PassphraseValidator(self.home_dir, self.host_key_id, self.passphrase)
+
+    def test_signer_import(self):
+        self.assertEqual(signer, passphrasevalidator.signer)
+
+    def test_verifier_import(self):
+        self.assertEqual(verifier, passphrasevalidator.verifier)
 
     def test_instance(self):
         self.assertIsInstance(self.x, passphrasevalidator.PassphraseValidator)
@@ -72,16 +72,6 @@ class TestClassBasics(basegpgtestclass.BaseGPGTestClass):
         result = self.x.validate()
         self.assertIsNotNone(self.x.result)
 
-    @unittest.skip("Getting unexpected behavior from gnupg, requires investigation")
-    def test_validate_returns_verify_false_on_invalid_result(self):
-        invalid_x = passphrasevalidator.PassphraseValidator(self.home_dir, self.host_key_id, '')
-        sig = invalid_x.sign()
-        print(sig.stderr)
-        print(sig.status)
-        # o = invalid_x.validate()
-        # print(o)
-        # assert False
-
     def test_result_attr(self):
         self.assertIsNone(self.x.result)
 
@@ -100,5 +90,22 @@ class TestClassBasics(basegpgtestclass.BaseGPGTestClass):
         self.assertIsNone(result)
 
 
+@unittest.skipIf(*mark.slow)
+class TestPassphraseValidatorSlow(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        cls.key_master = helpers.SetUpKeys()
+        cls.key_master.set_up_alice()
 
+    def setUp(self):
+        self.maxDiff = None
+        self.home_dir = self.key_master.alice_dir_path
+        self.host_key_id = self.key_master.alice_key['keyid']
+        self.passphrase = 'passphrase'
+        self.msg = 'hello world'
+
+    def test_validate_returns_verify_false_on_invalid_result(self):
+        invalid_x = passphrasevalidator.PassphraseValidator(self.home_dir, self.host_key_id, '')
+        sig = invalid_x.sign()
+        self.assertIsNone(sig.status)
