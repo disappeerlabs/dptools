@@ -7,35 +7,33 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
+import unittest
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
 from dptools.gpg.helpers import keylistformatter
 from dptools.gpg.agents import keyring
-from dptools.gpg.tests.data import common
-from dptools.gpg.tests import basegpgtestclass
 
 
-# key_dir = 'tests/data/keys'
+@unittest.skipIf(*mark.slow)
+class TestKeyListFormatterBasics(unittest.TestCase):
 
-# user_name = 'mal'
-# user_email = '<mallory@none.com>'
-# user_keyid = common.current_key_keyid_keys_dir_ring
-# user_key_uid_string = 'alice (in wonderland) <alice@email.com>'
-#
-# key_ring = keyring.KeyRing(key_dir)
-# raw_key_list = key_ring.get_raw_key_list()
-
-
-class TestKeyListFormatterBasics(basegpgtestclass.BaseGPGTestClass):
+    @classmethod
+    def setUpClass(cls):
+        cls.key_master = helpers.SetUpKeys()
+        cls.key_master.set_up_alice()
+        cls.fingerprint = cls.key_master.alice_key['fingerprint']
+        cls.keyid = cls.key_master.alice_key['keyid']
 
     def setUp(self):
-        self.key_dir = self.key_dir_path
-        self.key_ring = keyring.KeyRing(self.key_dir)
-        self.raw_key_list = self.key_ring.get_raw_key_list()
-        self.key_list = self.raw_key_list
-        self.name = common.current_key_user_name
-        self.email = common.current_key_user_email
-        self.keyid = common.current_key_keyid_keys_dir_ring
-        self.user_key_uid_string = common.current_key_uuid_raw_string_value
-        self.keyid = common.current_key_keyid_keys_dir_ring
+        self.keydir = self.key_master.alice_dir_path
+        self.key_ring = keyring.KeyRing(self.keydir)
+        self.key_list = self.key_ring.get_raw_key_list()
+
+        self.name = helpers.alice_key_vals_dict['Name']
+        self.email = '<' + helpers.alice_key_vals_dict['Email'] + '>'
+        self.keyid = self.key_master.alice_key['keyid']
+
+        self.user_key_uid_string = self.key_master.alice_key['uids'][0]
         self.key_uid_string = self.key_list[0]['uids'][0]
         self.x = keylistformatter.KeyListFormatter()
 
