@@ -13,6 +13,7 @@ import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
 from dptools import gpg
+from dptools.tests import mark
 from dptools.gpg.tests import helpers
 from dptools.gpg.agents import keycreator
 from dptools.gpg.agents import gpgagent
@@ -90,7 +91,7 @@ class TestKeyCreatorClass(BaseTestClass):
         self.x.execute(self.key_input)
         self.assertTrue(mocked1.called)
 
-    @unittest.skip("Long running method for key creation")
+    @unittest.skipIf(*mark.slow)
     def test_create_new_key_method(self):
         before = self.x.gpg.list_keys()
         before_len = len(before)
