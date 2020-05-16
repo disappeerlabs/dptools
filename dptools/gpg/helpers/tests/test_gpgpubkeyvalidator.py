@@ -9,7 +9,7 @@ License: GPLv3
 """
 
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from dptools.gpg.helpers import gpgpubkeyvalidator
 from dptools.gpg.agents import keyring
 import tempfile
@@ -55,15 +55,6 @@ Htuy1Idq3WBJq0xL2apEfuaZTYlcbaKabieg62kseAwMsALEetBDljtUK7tkCWIS
 -----END PGP PUBLIC KEY BLOCK-----'''
 
 
-class TestImports(unittest.TestCase):
-
-    def test_keyring(self):
-        self.assertEqual(keyring, gpgpubkeyvalidator.keyring)
-
-    def test_tempfile(self):
-        self.assertEqual(tempfile, gpgpubkeyvalidator.tempfile)
-
-
 class TestClassBasics(unittest.TestCase):
 
     valid_obj = gpgpubkeyvalidator.GPGPubKeyValidator(valid_pubkey)
@@ -72,6 +63,12 @@ class TestClassBasics(unittest.TestCase):
         self.valid_pubkey = valid_pubkey
         self.invalid_pubkey = 'xxxxx'
         self.x = copy.deepcopy(self.valid_obj) # gpgpubkeyvalidator.GPGPubKeyValidator(self.valid_pubkey)
+
+    def test_keyring_import(self):
+        self.assertEqual(keyring, gpgpubkeyvalidator.keyring)
+
+    def test_tempfile_import(self):
+        self.assertEqual(tempfile, gpgpubkeyvalidator.tempfile)
 
     def test_instance(self):
         self.assertIsInstance(self.x, gpgpubkeyvalidator.GPGPubKeyValidator)
