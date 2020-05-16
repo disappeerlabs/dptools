@@ -16,7 +16,7 @@ from dptools.gpg.agents import signer, verifier
 
 
 @unittest.skipIf(*mark.slow)
-class TestClassBasics(unittest.TestCase):
+class TestPassphraseValidatorBasicsSlow(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):

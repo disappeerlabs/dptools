@@ -9,18 +9,23 @@ License: GPLv3
 
 import unittest
 from unittest.mock import MagicMock, patch
-from dptools.gpg.tests import basegpgtestclass
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
 from dptools.gpg import gpgclient
-from dptools.gpg.agents import keyring
-from dptools.gpg.agents import encrypter
-from dptools.gpg.agents import decrypter
-from dptools.gpg.agents import signer
-from dptools.gpg.agents import verifier
+from dptools.gpg.agents import keyring, encrypter, decrypter, signer, verifier
 from dptools.gpg.helpers import keyfinder
-from dptools.gpg.tests.data import common
 
 
-class TestImports(unittest.TestCase):
+class TestGPGClientBasics(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.key_master = helpers.SetUpKeys()
+
+    def setUp(self):
+        self.alt_key_dir = self.key_master.bob_dir_path
+        self.key_dir = self.key_master.alice_dir_path
+        self.x = gpgclient.GPGClient(self.key_dir)
 
     def test_keyring(self):
         self.assertEqual(keyring, gpgclient.keyring)
@@ -39,19 +44,6 @@ class TestImports(unittest.TestCase):
 
     def test_verifier(self):
         self.assertEqual(verifier, gpgclient.verifier)
-
-
-class TestGPGClientClassBasics(basegpgtestclass.BaseGPGTestClass):
-
-    def setUp(self):
-        self.alt_key_dir = self.alt_key_dir_path
-        self.key_dir = self.key_dir_path
-        self.key_id = '12345'
-        self.message = "Hello"
-        self.passphrase = 'passphrase'
-        self.valid_keyid = common.current_key_keyid_keys_dir_ring
-        self.valid_key_fingerprint = common.current_key_fingerprint_keys_dir_ring
-        self.x = gpgclient.GPGClient(self.key_dir)
 
     def test_instance(self):
         self.assertIsInstance(self.x, gpgclient.GPGClient)
@@ -79,6 +71,25 @@ class TestGPGClientClassBasics(basegpgtestclass.BaseGPGTestClass):
         sub = self.x.key_ring.set = MagicMock()
         self.x.set(self.alt_key_dir)
         sub.assert_called_with(self.alt_key_dir)
+
+
+@unittest.skipIf(*mark.slow)
+class TestGPGClientClassBasics(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.key_master = helpers.SetUpKeys()
+        cls.key_master.set_up_alice()
+
+    def setUp(self):
+        self.alt_key_dir = self.key_master.bob_dir_path
+        self.key_dir = self.key_master.alice_dir_path
+        self.key_id = '12345'
+        self.message = "Hello"
+        self.passphrase = self.key_master.passphrase
+        self.valid_keyid = self.key_master.alice_key['keyid']
+        self.valid_key_fingerprint = self.key_master.alice_key['fingerprint']
+        self.x = gpgclient.GPGClient(self.key_dir)
 
     @patch('gpg.gpgclient.encrypter.Encrypter')
     def test_encrypt_method_calls_keyfinder_get_fingerprint(self, mocked):
