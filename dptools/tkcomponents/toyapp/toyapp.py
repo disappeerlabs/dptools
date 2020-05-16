@@ -8,21 +8,22 @@ License: GPLv3
 """
 
 import sys
+import argparse
 import tkinter
 from dptools.utilities import applogger
-from dptools.tkcomponents.toyapp import toyappcontroller
+from dptools.tkcomponents.toyapp.controllers import basictoyappcontroller, queuetoyappcontroller
 
 
 class ToyApp:
     # Todo: add docs for toyapp
     title = 'ToyApp'
 
-    def __init__(self):
+    def __init__(self, controller_class):
         self.title = self.title
         self.root = tkinter.Tk()
         self.root.title(self.title)
         self.log = self.config_logger()
-        self.controller = toyappcontroller.ToyAppController(self.root)
+        self.controller = controller_class(self.root)
 
     def config_logger(self):
         log = applogger.AppLogger(self.title).create()
@@ -38,8 +39,20 @@ class ToyApp:
             sys.exit()
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-q', '--queue', action='store_true')
+    return parser.parse_args()
+
+
 def main():
-    app = ToyApp()
+    args = parse_args()
+    if args.queue:
+        controller_class = queuetoyappcontroller.QueueToyAppController
+    else:
+        controller_class = basictoyappcontroller.BasicToyAppController
+
+    app = ToyApp(controller_class)
     app.run()
 
 

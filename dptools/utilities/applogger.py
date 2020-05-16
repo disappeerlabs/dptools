@@ -10,13 +10,16 @@ Custom app logger module.
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
-
+import functools
 import logging
 import types
 import sys
 
 
 def func_log(logger):
+    """
+    Function decorator to provide basic info on the called function, must be passed in logger object
+    """
     def decorator(func):
         def debug_wrapper(*args, **kwargs):
             AppLogger.print_red('[FUNC LOG DECORATOR]')
@@ -24,6 +27,23 @@ def func_log(logger):
             logger.debug(err)
             AppLogger.print_red('[/FUNC LOG DECORATOR]')
             return func(*args, **kwargs)
+        return debug_wrapper
+    return decorator
+
+
+def method_log():
+    """
+    Class method decorator to provide basic info on the called method.
+    Presumes class has a self.log logger attribute.
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def debug_wrapper(self, *args, **kwargs):
+            self.log.print_red('[FUNC LOG DECORATOR]')
+            err = "Function called: {}.{}".format(func.__module__, func.__name__)
+            self.log.debug(err)
+            self.log.print_red('[/FUNC LOG DECORATOR]')
+            return func(self, *args, **kwargs)
         return debug_wrapper
     return decorator
 

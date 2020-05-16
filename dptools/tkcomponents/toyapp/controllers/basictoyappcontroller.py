@@ -1,5 +1,5 @@
 """
-toyappcontroller.py	
+basictoyappcontroller.py
 
 Controller class for toy app
 
@@ -12,7 +12,7 @@ from dptools.tkcomponents.toyapp import toyappview
 from dptools.tkcomponents import debugwidget
 
 
-class ToyAppController:
+class BasicToyAppController:
 
     def __init__(self, root):
         self.root = root
