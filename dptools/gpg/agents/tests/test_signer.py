@@ -8,25 +8,20 @@ License: GPLv3
 """
 
 import unittest
-
-import dptools.gpg.tests.basegpgtestclass
-from dptools.gpg.agents import signer
-from dptools.gpg.agents import gpgagent
-from dptools.gpg.tests.data import common
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
+from dptools.gpg.agents import signer, gpgagent
 
 
-class TestImports(unittest.TestCase):
+class TestSignerBasics(unittest.TestCase):
+
+    def setUp(self):
+        self.key_master = helpers.SetUpKeys()
+        self.keydir = self.key_master.alice_dir_path
+        self.s = signer.Signer(self.keydir)
 
     def test_gpgagent_import(self):
         self.assertEqual(gpgagent, signer.gpgagent)
-
-
-class TestSignerClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
-
-    def setUp(self):
-        self.keydir = self.key_dir_path
-        self.key_fingerprint = common.current_key_fingerprint_keys_dir_ring
-        self.s = signer.Signer(self.keydir)
 
     def test_instance(self):
         self.assertIsInstance(self.s, signer.Signer)
@@ -44,26 +39,29 @@ class TestSignerClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
         check = hasattr(self.s, name)
         self.assertTrue(check)
 
-    def test_execute_method_valid(self):
-        self.message = "Hello world."
-        self.passphrase = 'passphrase'
-        result = self.s.execute(self.message, self.key_fingerprint, self.passphrase)
-        self.assertIn("SIGNED MESSAGE", str(result))
 
-    @unittest.skip("Unexpected failure, see test_decrypter skip for similar")
-    def test_execute_method_not_valid(self):
-        # TODO: Unsure why this test fails, see comment in test_decrypter module
+@unittest.skipIf(*mark.slow)
+class TestSignerClassSlow(unittest.TestCase):
+
+    def setUp(self):
+        self.key_master = helpers.SetUpKeys()
+        self.key_master.set_up_alice()
+        self.fingerprint = self.key_master.alice_key['fingerprint']
+        self.keydir = self.key_master.alice_dir_path
         self.message = "Hello world."
-        self.passphrase = 'xxxyyy'
-        result = self.s.execute(self.message, self.key_fingerprint, self.passphrase)
-        self.assertEqual(0, len(str(result)))
+        self.s = signer.Signer(self.keydir)
+
+    def test_execute_method_valid(self):
+        result = self.s.execute(self.message, self.fingerprint, self.key_master.passphrase)
+        self.assertIn("END PGP SIGNATURE", str(result))
+
+    def test_execute_method_not_valid(self):
+        result = self.s.execute(self.message, self.fingerprint, self.key_master.bad_passphrase)
+        self.assertIsNone(result.status)
 
     def test_execute_method_valid_detached(self):
-        self.message = "Hello world."
-        self.passphrase = 'passphrase'
         result = self.s.execute(self.message,
-                                self.key_fingerprint,
-                                self.passphrase,
+                                self.fingerprint,
+                                self.key_master.passphrase,
                                 detach=True)
         self.assertNotIn(self.message, str(result))
-

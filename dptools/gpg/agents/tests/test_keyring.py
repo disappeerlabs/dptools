@@ -65,7 +65,7 @@ class TestKeyRingBasics(unittest.TestCase):
 
 
 @unittest.skipIf(*mark.slow)
-class TestKeyRingMethods(unittest.TestCase):
+class TestKeyRingMethodsSlow(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):

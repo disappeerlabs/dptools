@@ -8,26 +8,20 @@ License: GPLv3
 """
 
 import unittest
-
-import dptools.gpg.tests.basegpgtestclass
-from dptools.gpg.agents import verifier
-from dptools.gpg.agents import gpgagent
-from dptools.gpg.agents import signer
-from dptools.gpg.tests.data import common
+from dptools.tests import mark
+from dptools.gpg.tests import helpers
+from dptools.gpg.agents import verifier, signer, gpgagent
 
 
-class TestImports(unittest.TestCase):
+class TestVerifierClass(unittest.TestCase):
+
+    def setUp(self):
+        self.key_master = helpers.SetUpKeys()
+        self.keydir = self.key_master.alice_dir_path
+        self.v = verifier.Verifier(self.keydir)
 
     def test_gpgagent_import(self):
         self.assertEqual(gpgagent, verifier.gpgagent)
-
-
-class TestVerifierClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
-
-    def setUp(self):
-        self.keydir = self.key_dir_path
-        self.key_fingerprint = common.current_key_fingerprint_keys_dir_ring
-        self.v = verifier.Verifier(self.keydir)
 
     def test_instance(self):
         self.assertIsInstance(self.v, verifier.Verifier)
@@ -45,19 +39,24 @@ class TestVerifierClass(dptools.gpg.tests.basegpgtestclass.BaseGPGTestClass):
         check = hasattr(self.v, name)
         self.assertTrue(check)
 
-    def test_execute_method_valid(self):
-        """
-        TODO: this passes, but that is unexpected with incorrect passphrase
-        Investigate for common test setup error as in other agent test modules
-        """
+
+@unittest.skipIf(*mark.slow)
+class TestVerifierClassSlow(unittest.TestCase):
+
+    def setUp(self):
+        self.key_master = helpers.SetUpKeys()
+        self.key_master.set_up_alice()
+        self.keydir = self.key_master.alice_dir_path
         self.message = "Hello world."
-        self.passphrase = 'passphrase'
-        self.s = signer.Signer(self.keydir)
-        sig = self.s.execute(self.message, self.key_fingerprint, self.passphrase)
+        self.key_fingerprint = self.key_master.alice_key['fingerprint']
+        self.v = verifier.Verifier(self.keydir)
+
+    def test_execute_method_valid(self):
+        s = signer.Signer(self.keydir)
+        sig = s.execute(self.message, self.key_fingerprint, self.key_master.passphrase)
         result = self.v.execute(str(sig))
         self.assertTrue(result.valid)
 
     def test_execute_method_not_valid(self):
-        self.message = "Hello world."
         result = self.v.execute(self.message)
         self.assertFalse(result.valid)
