@@ -23,6 +23,10 @@ Examples:
  
  # Notes
  
- Add slow flag to run all tests:
+Add slow flag to run all tests:
  
- `slow=1 python -m unittest gpg/agents/tests/test_decrypter.py -v` 
+`slow=1 python -m unittest` 
+ 
+Experiment with the toyapp in tkcomponents, `cd` into `dptools/tkcomponents/toyapp`:
+
+`python toyapp.py`

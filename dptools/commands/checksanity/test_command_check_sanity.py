@@ -12,9 +12,7 @@ from unittest.mock import MagicMock
 import queue
 from dptools.commands import abstracts
 from dptools.commands import checksanity
-from dptools.commands.checksanity import CheckSanityCommand
-from dptools.commands.checksanity import CheckSanityHandler
-from dptools.commands.checksanity import CheckSanityResult
+from dptools.commands.checksanity import CheckSanityCommand, CheckSanityHandler, CheckSanityResult
 
 
 class TestBasicsAndIntegrationFlow(unittest.TestCase):
