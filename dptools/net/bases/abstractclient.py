@@ -14,6 +14,7 @@ import socks
 
 class AbstractClient(metaclass=abc.ABCMeta):
 
+    # TODO: change argnamespace to type abstract client params
     def __init__(self, argnamespace):
         self.argnamespace = argnamespace
         self.sock = None
@@ -86,9 +87,9 @@ class AbstractClient(metaclass=abc.ABCMeta):
     def stop(self):
         self.sock.close()
 
-    def configure_transport(self):
+    def configure_transport(self, proxy=True):
         try:
-            self.create_socket()
+            self.create_socket(proxy=proxy)
             self.connect()
             self.wrap_socket()
         except (socket.error, ConnectionRefusedError) as err:

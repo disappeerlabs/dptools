@@ -168,12 +168,19 @@ class TestAbstractClientClassBasics(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             self.x.send()
 
-    def test_configure_transport_method_calls_create_socket(self):
+    def test_configure_transport_method_calls_create_socket_proxy_true(self):
         sub2 = self.x.set_protocol = MagicMock()
         sub = self.x.connect = MagicMock()
         target = self.x.create_socket = MagicMock()
         self.x.configure_transport()
-        target.assert_called_with()
+        target.assert_called_with(proxy=True)
+
+    def test_configure_transport_method_proxy_false_calls_create_socket_proxy_false(self):
+        sub2 = self.x.set_protocol = MagicMock()
+        sub = self.x.connect = MagicMock()
+        target = self.x.create_socket = MagicMock()
+        self.x.configure_transport(proxy=False)
+        target.assert_called_with(proxy=False)
 
     def test_configure_transport_method_calls_wrap_socket(self):
         sub2 = self.x.set_protocol = MagicMock()
