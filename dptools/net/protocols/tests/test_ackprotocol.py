@@ -98,3 +98,28 @@ class TestClassBasics(unittest.TestCase):
         target = self.x.sock = MagicMock()
         self.x.send_ack(dict())
         target.close.assert_called_with()
+
+    def test_handle_request_method_calls_process_incoming_ack(self):
+        sub = self.x.process_incoming = MagicMock(return_value=self.payload)
+        self.x.sock = MagicMock()
+        o = self.x.handle_request()
+        sub.assert_called_with(self.x.ack_string)
+
+    def test_handle_request_returns_false_with_process_incoming_false(self):
+        sub = self.x.process_incoming = MagicMock(return_value=False)
+        self.x.sock = MagicMock()
+        o = self.x.handle_request()
+        self.assertIsNotNone(o)
+        self.assertFalse(o)
+
+    def test_handle_request_calls_sock_close_with_process_incoming_false(self):
+        sub = self.x.process_incoming = MagicMock(return_value=False)
+        target = self.x.sock = MagicMock()
+        o = self.x.handle_request()
+        target.close.assert_called_with()
+
+    def test_handle_request_calls_send_ack_if_process_incoming_not_false(self):
+        sub = self.x.process_incoming = MagicMock(return_value=self.payload)
+        target = self.x.send_ack = MagicMock()
+        o = self.x.handle_request()
+        target.assert_called_with(self.payload)
