@@ -14,20 +14,19 @@ import socks
 
 class AbstractClient(metaclass=abc.ABCMeta):
 
-    # TODO: change argnamespace to type abstract client params
-    def __init__(self, argnamespace):
-        self.argnamespace = argnamespace
+    def __init__(self, client_params):
+        self.client_params = client_params
         self.sock = None
         self.protocol = None
         self.error = None
 
     @property
     def host(self):
-        return self.argnamespace.host
+        return self.client_params.host
 
     @property
     def port(self):
-        return self.argnamespace.port
+        return self.client_params.port
 
     @property
     def interface(self):
@@ -35,19 +34,11 @@ class AbstractClient(metaclass=abc.ABCMeta):
 
     @property
     def payload_dict(self):
-        return self.argnamespace.payload_dict
-
-    @property
-    def nonce(self):
-        return self.argnamespace.nonce
+        return self.client_params.payload_dict
 
     @property
     def command(self):
-        return self.argnamespace.command
-
-    @property
-    def queue(self):
-        return self.argnamespace.queue
+        return self.client_params.command
 
     def create_socket(self, proxy=True):
         """

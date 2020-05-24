@@ -9,13 +9,13 @@ License: GPLv3
 
 import unittest
 from unittest.mock import MagicMock, patch
-import dptools.net.bases.abstractclient as abstractclient
-from dptools.net.bases.abstractclientparams import AbstractClientParams
 import queue
 import abc
-import types
 import socket
 import socks
+import dptools.net.bases.abstractclient as abstractclient
+from dptools.net.bases.abstractclientparams import AbstractClientParams
+
 
 
 class TestImports(unittest.TestCase):
@@ -57,9 +57,7 @@ class TestAbstractClientClassBasics(unittest.TestCase):
         self.params_obj = AbstractClientParams(self.host,
                                                self.port,
                                                self.command,
-                                               self.nonce,
-                                               self.payload_dict,
-                                               self.queue)
+                                               self.payload_dict)
         self.x = MockConcreateAbstractClient(self.params_obj)
 
     def test_instance(self):
@@ -79,7 +77,7 @@ class TestAbstractClientClassBasics(unittest.TestCase):
         self.assertIsNone(self.x.error)
 
     def test_arg_namespace(self):
-        self.assertEqual(self.x.argnamespace, self.params_obj)
+        self.assertEqual(self.x.client_params, self.params_obj)
 
     def test_host_property(self):
         result = self.x.host
@@ -93,12 +91,6 @@ class TestAbstractClientClassBasics(unittest.TestCase):
         check = (self.x.host, self.x.port)
         result = self.x.interface
         self.assertEqual(check, result)
-
-    def test_queue_property(self):
-        self.assertEqual(self.x.queue, self.params_obj.queue)
-
-    def test_nonce_property(self):
-        self.assertEqual(self.x.nonce, self.params_obj.nonce)
 
     def test_payload_dict_property(self):
         self.assertEqual(self.x.payload_dict, self.params_obj.payload_dict)

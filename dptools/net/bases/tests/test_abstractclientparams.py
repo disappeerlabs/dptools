@@ -11,7 +11,6 @@ License: GPLv3
 import unittest
 from unittest.mock import MagicMock
 import queue
-import dataclasses
 from dptools.net.bases.abstractclientparams import AbstractClientParams
 
 
@@ -27,9 +26,7 @@ class TestAbstractClientParamsBasic(unittest.TestCase):
         self.x = AbstractClientParams(self.host,
                                       self.port,
                                       self.command,
-                                      self.nonce,
-                                      self.payload_dict,
-                                      self.queue)
+                                      self.payload_dict)
 
     def test_host_property(self):
         result = self.x.host
@@ -38,12 +35,6 @@ class TestAbstractClientParamsBasic(unittest.TestCase):
     def test_port_property(self):
         result = self.x.port
         self.assertEqual(result, self.port)
-
-    def test_queue_property(self):
-        self.assertEqual(self.x.queue, self.queue)
-
-    def test_nonce_property(self):
-        self.assertEqual(self.x.nonce, self.nonce)
 
     def test_payload_dict_property(self):
         self.assertEqual(self.x.payload_dict, self.payload_dict)

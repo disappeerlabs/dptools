@@ -7,7 +7,6 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-import queue
 from dataclasses import dataclass
 
 
@@ -16,6 +15,4 @@ class AbstractClientParams:
     host: str
     port: int
     command: str
-    nonce: str
     payload_dict: dict
-    queue: queue.Queue
