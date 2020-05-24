@@ -1,18 +1,18 @@
 """
-test_threadmanagers.py
+test_abstractthreadmanager.py
 
 Test suite for ThreadManagers module, should contain class objects for:
     - AbstractThreadManager
     - ServerThreadManager
     - ClientThreadManager
 
-Copyright (C) 2018 Disappeer Labs
+Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
 import unittest
 from unittest.mock import MagicMock, patch
-import dptools.net.bases.threadmanagers as threadmanagers
+import dptools.net.bases.abstractthreadmanager as threadmanagers
 import abc
 import threading
 

@@ -3,7 +3,7 @@ servercontroller.py
 
 Module for ServerController class object
 
-Copyright (C) 2018 Disappeer Labs
+Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 

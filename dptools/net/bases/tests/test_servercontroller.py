@@ -3,7 +3,7 @@ test_servercontroller.py
 
 Test suite for the ServerController class object
 
-Copyright (C) 2018 Disappeer Labs
+Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 

@@ -1,12 +1,12 @@
 """
-threadmanagers.py
+abstractthreadmanager.py
 
 Threadmanager module for:
     - AbstractThreadManager
     - ServerThreadManager concrete class
     - ClientThreadManager concrete class
 
-Copyright (C) 2018 Disappeer Labs
+Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
