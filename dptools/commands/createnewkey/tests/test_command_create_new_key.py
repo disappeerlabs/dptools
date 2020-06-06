@@ -13,10 +13,11 @@ import queue
 from dptools.gpg.tests import helpers
 from dptools.commands import abstracts
 from dptools.commands import createnewkey
-from dptools.commands.createnewkey import createnewkeycommand
-from dptools.commands.createnewkey.createnewkeycommand import (CreateNewKeyCommand,
-                                                               CreateNewKeyHandler,
-                                                               CreateNewKeyResult)
+from dptools.commands.createnewkey.createnewkeycommand import (
+    CreateNewKeyCommand,
+    CreateNewKeyHandler,
+    CreateNewKeyResult
+)
 
 
 class TestBasics(unittest.TestCase):
@@ -32,8 +33,6 @@ class TestBasics(unittest.TestCase):
         self.alice_key_input_dict = helpers.create_key_input_dict(helpers.key_reference_dict, helpers.alice_key_vals_dict)
         self.alice_dir_path = self.key_master.alice_dir_path
         self.command = CreateNewKeyCommand(self.alice_dir_path, self.alice_key_input_dict)
-
-
 
     def test_create_new_key_command_instance(self):
         self.assertTrue(issubclass(CreateNewKeyCommand, abstracts.AbstractCommand))
@@ -93,7 +92,3 @@ class TestBasics(unittest.TestCase):
         # Get the result object, simulate polling queue
         result_obj = self.queue.get()
         self.assertEqual(result_obj.result, result)
-
-    def test_continue_here(self):
-        # TODO: continue working on create new key from here
-        self.assertTrue(True)
