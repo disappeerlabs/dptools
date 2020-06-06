@@ -8,6 +8,7 @@ License: GPLv3
 """
 
 import abc
+import functools
 
 
 class AbstractCommand(metaclass=abc.ABCMeta):
@@ -46,3 +47,17 @@ def create_callback_handler(callback_function):
     current = TempHandler
     current.handle = callback_function
     return current
+
+
+def handle_put_to_queue():
+    """
+    Decorator to wrap handle method and put result to queue.
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def handle_wrapper(self, *args, **kwargs):
+            result = func(self, *args, **kwargs)
+            self.destination_queue.put(result)
+            return result
+        return handle_wrapper
+    return decorator
