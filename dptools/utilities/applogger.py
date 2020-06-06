@@ -53,6 +53,8 @@ class AppLogger:
     Basic application logger class with colorized output stream.
     """
 
+    name = 'AppLogger'
+
     colors = types.SimpleNamespace(green='\033[92m{}\033[00m',
                                    blue='\033[94m{}\033[00m',
                                    yellow='\033[93m{}\033[00m',

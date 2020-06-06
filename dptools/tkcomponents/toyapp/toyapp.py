@@ -10,7 +10,7 @@ License: GPLv3
 import sys
 import argparse
 import tkinter
-from dptools.utilities import applogger
+from dptools.utilities.applogger import AppLogger
 from dptools.tkcomponents.toyapp.controllers import basictoyappcontroller, queuetoyappcontroller
 
 
@@ -26,7 +26,7 @@ class ToyApp:
         self.controller = controller_class(self.root)
 
     def config_logger(self):
-        log = applogger.AppLogger(self.title).create()
+        log = AppLogger(AppLogger.name).create()
         sys.excepthook = log.handle_uncaught_system_exception
         self.root.report_callback_exception = log.handle_uncaught_tkinter_exception
         return log

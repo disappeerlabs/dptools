@@ -12,12 +12,13 @@ from unittest.mock import MagicMock, patch
 import queue
 from dptools.gpg.tests import helpers
 from dptools.commands import abstracts
-from dptools.commands import createnewkey
-from dptools.commands.createnewkey.createnewkeycommand import (
+from dptools.commands.gpg import createnewkey
+from dptools.commands.gpg.createnewkey import (
     CreateNewKeyCommand,
     CreateNewKeyHandler,
     CreateNewKeyResult
 )
+gpg_agent_patch_path_string = 'dptools.commands.gpg.createnewkey.createnewkeycommand.GPGAgent'
 
 
 class TestBasics(unittest.TestCase):
@@ -64,13 +65,13 @@ class TestBasics(unittest.TestCase):
         result_obj = self.queue.get()
         return result_obj
 
-    @patch('dptools.commands.createnewkey.createnewkeycommand.GPGAgent')
+    @patch(gpg_agent_patch_path_string)
     def test_handling_command_from_command_map_returns_result(self, mocked):
         result_obj = self.helper_get_result_from_queue()
         # Results should be instance of result, generic to all commands
         self.assertIsInstance(result_obj, CreateNewKeyResult)
 
-    @patch('dptools.commands.createnewkey.createnewkeycommand.GPGAgent')
+    @patch(gpg_agent_patch_path_string)
     def test_handling_result_from_queue_calls_registered_callback(self, mocked):
         result_obj = self.helper_get_result_from_queue()
         # Get result handler, instantiate, call handle with result
@@ -80,7 +81,7 @@ class TestBasics(unittest.TestCase):
         # Our mock function should now be called
         self.assertTrue(self.mock_callback.called)
 
-    @patch('dptools.commands.createnewkey.createnewkeycommand.GPGAgent')
+    @patch(gpg_agent_patch_path_string)
     def test_result_from_queue_is_create_new_key_result(self, mock_agent):
         result = 'Hello there'
         target_method = mock_agent().gpg.gen_key = MagicMock(return_value=result)
