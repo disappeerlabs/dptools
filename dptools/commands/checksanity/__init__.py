@@ -9,7 +9,7 @@ License: GPLv3
 """
 
 from dptools.commands import abstracts
-from dptools.commands.checksanity.checksanitycommand import (
+from .checksanitycommand import (
     CheckSanityCommand,
     CheckSanityHandler,
     CheckSanityResult

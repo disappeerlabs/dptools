@@ -8,6 +8,8 @@ License: GPLv3
 """
 
 from dptools.commands import abstracts
+from dptools.commands.abstracts import AbstractCommand
+from dptools.gpg.agents.gpgagent import GPGAgent
 
 
 class CreateNewKeyCommand(abstracts.AbstractCommand):
@@ -16,9 +18,16 @@ class CreateNewKeyCommand(abstracts.AbstractCommand):
 
 
 class CreateNewKeyHandler(abstracts.AbstractHandler):
-    pass
+
+    @abstracts.handle_put_to_queue()
+    def handle(self, command: AbstractCommand):
+        agent = GPGAgent(command.key_dir_path)
+        input_data = agent.gpg.gen_key_input(**command.key_input_dict)
+        result = agent.gpg.gen_key(input_data)
+        result_obj = CreateNewKeyResult(result=result)
+        return result_obj
 
 
 class CreateNewKeyResult(abstracts.AbstractResult):
-    pass
-
+    def __init__(self, result):
+        super().__init__(result)
