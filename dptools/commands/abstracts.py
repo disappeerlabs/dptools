@@ -34,15 +34,15 @@ class AbstractResult(metaclass=abc.ABCMeta):
         self.result = result
 
 
+class TempHandler(AbstractHandler):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def handle(self, command):
+        pass
+
+
 def create_callback_handler(callback_function):
-
-    class TempHandler(AbstractHandler):
-        def __init__(self, *args):
-            super().__init__(*args)
-
-        def handle(self, command):
-            pass
-
     current = TempHandler
     current.handle = callback_function
     return current

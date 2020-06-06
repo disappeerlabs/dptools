@@ -1,9 +1,8 @@
 """
 __init__.py	
 
-Create New Key command init
+Command Check Sanity init file
 
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
-

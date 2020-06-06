@@ -6,8 +6,7 @@ Controller for demonstration of Command Integration with Queue Consumer Controll
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
-
-
+import dptools.commands.checksanity.checksanitycommand
 from dptools.tkcomponents.toyapp import toyapp
 from dptools.utilities import queueconsumer
 from dptools.tkcomponents.toyapp.controllers import basecontroller
@@ -22,7 +21,7 @@ class CustomQueueToyAppController(basecontroller.BaseController, queueconsumer.Q
         self.debug_widget.click_debug_2_override(self.button_2_override)
 
         self.payload_map = dict()
-        self.payload_map.update(checksanity.register_key_map(self.create_new_key_result))
+        self.payload_map.update(checksanity.register(self.create_new_key_result))
 
     def check_payload(self, payload):
         # TODO: remove this override, reimplement the QueueConsumer check to remove restriction to only dicts
@@ -35,7 +34,7 @@ class CustomQueueToyAppController(basecontroller.BaseController, queueconsumer.Q
 
     def button_1_override(self, event):
         print("Button 1 override.")
-        command = checksanity.CheckSanityCommand("This is the Check Sanity Command")
+        command = dptools.commands.checksanity.checksanitycommand.CheckSanityCommand("This is the Check Sanity Command")
         self.queue.put(command)
 
     def button_2_override(self, event):

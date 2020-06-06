@@ -12,8 +12,9 @@ from unittest.mock import MagicMock
 import queue
 from dptools.gpg.tests import helpers
 from dptools.commands import abstracts
-from dptools.commands import createnewkey
-from dptools.commands.createnewkey import CreateNewKeyCommand, CreateNewKeyHandler, CreateNewKeyResult
+from dptools.commands.createnewkey.createnewkeycommand import (CreateNewKeyCommand,
+                                                               CreateNewKeyHandler,
+                                                               CreateNewKeyResult)
 
 
 class TestBasics(unittest.TestCase):
