@@ -8,7 +8,6 @@ License: GPLv3
 """
 
 from dptools.commands import abstracts
-from dptools.commands.abstracts import AbstractCommand
 from dptools.gpg.agents.gpgagent import GPGAgent
 
 
