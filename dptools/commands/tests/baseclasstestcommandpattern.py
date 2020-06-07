@@ -53,8 +53,11 @@ class BaseClassTestCommandPattern(unittest.TestCase, metaclass=abc.ABCMeta):
     def test_result_instance(self, *args):
         self.assertTrue(issubclass(self.result_class(), abstracts.AbstractResult))
 
-    def test_register_func_registers_callback_to_handle_method(self, *args):
+    def test_register_func_maps_callback_to_handle_method(self, *args):
         self.assertEqual(self.command_map[self.result_class().__name__].handle, self.mock_callback)
+
+    def test_register_func_maps_handler_to_command_name(self, *args):
+        self.assertEqual(self.command_map[self.command_class().__name__], self.handler_class())
 
     def helper_get_result_from_queue(self, *args):
         # Grab the handler class from the map

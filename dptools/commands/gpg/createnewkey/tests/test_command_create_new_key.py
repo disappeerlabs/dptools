@@ -20,7 +20,7 @@ gpg_agent_patch_path_string = 'dptools.commands.gpg.createnewkey.createnewkeycom
 
 
 @patch(gpg_agent_patch_path_string)
-class TestCheckSanityWithBaseClass(baseclasstestcommandpattern.BaseClassTestCommandPattern):
+class TestCreateNewKeyWithBaseClass(baseclasstestcommandpattern.BaseClassTestCommandPattern):
 
     def config_register_callback(self):
         return createnewkey.register(self.mock_callback)
@@ -53,11 +53,5 @@ class TestCheckSanityWithBaseClass(baseclasstestcommandpattern.BaseClassTestComm
     def test_result_from_queue_is_create_new_key_result(self, mock_agent):
         result = 'Hello there'
         target_method = mock_agent().gpg.gen_key = MagicMock(return_value=result)
-        handler_class = self.command_map[self.command.name]
-        # Initialize handler
-        handler_object = handler_class(self.queue)
-        # Run it
-        handler_object.handle(self.command)
-        # Get the result object, simulate polling queue
-        result_obj = self.queue.get()
+        result_obj = self.helper_get_result_from_queue()
         self.assertEqual(result_obj.result, result)

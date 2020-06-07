@@ -20,7 +20,7 @@ class CreateNewKeyCommand(abstracts.AbstractCommand):
 class CreateNewKeyHandler(abstracts.AbstractHandler):
 
     @abstracts.handle_put_to_queue()
-    def handle(self, command: AbstractCommand):
+    def handle(self, command: CreateNewKeyCommand):
         agent = GPGAgent(command.key_dir_path)
         input_data = agent.gpg.gen_key_input(**command.key_input_dict)
         result = agent.gpg.gen_key(input_data)
