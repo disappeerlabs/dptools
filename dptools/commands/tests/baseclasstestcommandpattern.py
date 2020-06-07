@@ -44,19 +44,19 @@ class BaseClassTestCommandPattern(unittest.TestCase, metaclass=abc.ABCMeta):
     def result_class(self):
         raise NotImplementedError
 
-    def test_command_instance(self):
+    def test_command_instance(self, *args):
         self.assertTrue(issubclass(self.command_class(), abstracts.AbstractCommand))
 
-    def test_handler_instance(self):
+    def test_handler_instance(self, *args):
         self.assertTrue(issubclass(self.handler_class(), abstracts.AbstractHandler))
 
-    def test_result_instance(self):
+    def test_result_instance(self, *args):
         self.assertTrue(issubclass(self.result_class(), abstracts.AbstractResult))
 
-    def test_register_func_registers_callback_to_handle_method(self):
+    def test_register_func_registers_callback_to_handle_method(self, *args):
         self.assertEqual(self.command_map[self.result_class().__name__].handle, self.mock_callback)
 
-    def helper_get_result_from_queue(self):
+    def helper_get_result_from_queue(self, *args):
         # Grab the handler class from the map
         handler_class = self.command_map[self.command.name]
         # Initialize handler
@@ -67,12 +67,12 @@ class BaseClassTestCommandPattern(unittest.TestCase, metaclass=abc.ABCMeta):
         result_obj = self.queue.get()
         return result_obj
 
-    def test_handling_command_from_command_map_returns_result(self):
+    def test_handling_command_from_command_map_returns_result(self, *args):
         result_obj = self.helper_get_result_from_queue()
         # Results should be instance of result, generic to all commands
         self.assertIsInstance(result_obj, self.result_class())
 
-    def test_handling_result_from_queue_calls_registered_callback(self):
+    def test_handling_result_from_queue_calls_registered_callback(self, *args):
         result_obj = self.helper_get_result_from_queue()
         # Get result handler, instantiate, call handle with result
         result_handler_class = self.command_map[result_obj.name]
