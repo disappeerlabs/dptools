@@ -15,7 +15,8 @@ from dptools.tkcomponents.toyapp.controllers import basecontroller
 class QueueToyAppController(basecontroller.BaseController, queueconsumer.QueueConsumer):
 
     def __init__(self, root):
-        super().__init__(root)
+        basecontroller.BaseController.__init__(self, root)
+        queueconsumer.QueueConsumer.__init__(self, root)
         self.debug_widget.click_debug_2_override(self.override)
 
     def override(self, event):
