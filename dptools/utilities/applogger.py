@@ -14,6 +14,8 @@ import functools
 import logging
 import types
 import sys
+import inspect
+import pprint
 
 
 def func_log(logger):
@@ -41,7 +43,7 @@ def method_log():
         def debug_wrapper(self, *args, **kwargs):
             self.log.print_red('[FUNC LOG DECORATOR]')
             err = "Function called: {}.{}".format(func.__module__, func.__name__)
-            self.log.debug(err)
+            self.log.get_stack(err)
             self.log.print_red('[/FUNC LOG DECORATOR]')
             return func(self, *args, **kwargs)
         return debug_wrapper
