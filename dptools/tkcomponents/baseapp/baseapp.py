@@ -13,10 +13,9 @@ from dptools.utilities.applogger import AppLogger
 
 
 class BaseApp:
-    title = 'BaseApp'
 
-    def __init__(self, controller_class):
-        self.title = self.title
+    def __init__(self, controller_class, title='BaseApp'):
+        self.title = title
         self.root = tkinter.Tk()
         self.root.title(self.title)
         self.log = self.config_logger()

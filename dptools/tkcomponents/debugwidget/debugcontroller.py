@@ -12,8 +12,8 @@ from dptools.tkcomponents.debugwidget import abstractdebugcontroller
 
 class DebugController(abstractdebugcontroller.AbstractDebugController):
 
-    def __init__(self, root, parent_widget, app_title):
-        super().__init__(root, parent_widget, app_title)
+    def __init__(self, root, debug_view, app_title):
+        super().__init__(root, debug_view, app_title)
 
     def config_default_actions(self):
         self.view.config_event_bindings(self.click_debug_1_action, self.click_debug_2_action)

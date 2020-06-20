@@ -7,9 +7,12 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-from dptools.tkcomponents.debugwidget import debugcontroller
+from dptools.tkcomponents.debugwidget.debugframe import DebugFrame as frame
+from dptools.tkcomponents.debugwidget.debugcontroller import DebugController
+name = 'Debug'
 
 
-def initialize(root, parent_widget):
-    d = debugcontroller.DebugController(root, parent_widget, 'ToyApp')
-    return d
+def register_widget(root, register_func, override_name=name):
+    view = register_func(frame, text=override_name)
+    controller = DebugController(root, view, override_name)
+    return controller
