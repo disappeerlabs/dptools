@@ -60,7 +60,7 @@ class AppLogger:
     colors = types.SimpleNamespace(green='\033[92m{}\033[00m',
                                    blue='\033[94m{}\033[00m',
                                    yellow='\033[93m{}\033[00m',
-                                   red='\033[92m{}\033[00m',
+                                   red='\033[91m{}\033[00m',
                                    purple='\033[95m{}\033[00m')
 
     format_config = '[%(module)s][ln:%(lineno)d][%(funcName)s][%(asctime)s.%(msecs)d]\n    %(levelname)s: %(message)s'
@@ -138,10 +138,11 @@ class AppLogger:
         Add colors to each logging level.
         """
         logging.addLevelName(logging.DEBUG, self.colors.green.format(logging.getLevelName(logging.DEBUG)))
-        logging.addLevelName(logging.INFO, self.colors.blue.format(logging.getLevelName(logging.INFO)))
-        logging.addLevelName(logging.WARNING, self.colors.yellow.format(logging.getLevelName(logging.WARNING)))
-        logging.addLevelName(logging.ERROR, self.colors.purple.format(logging.getLevelName(logging.ERROR)))
+        # logging.addLevelName(logging.INFO, self.colors.blue.format(logging.getLevelName(logging.INFO)))
+        # logging.addLevelName(logging.WARNING, self.colors.yellow.format(logging.getLevelName(logging.WARNING)))
+        # logging.addLevelName(logging.ERROR, self.colors.purple.format(logging.getLevelName(logging.ERROR)))
         logging.addLevelName(logging.CRITICAL, self.colors.red.format(logging.getLevelName(logging.CRITICAL)))
+        pass
 
     def get_stack(self, msg, level=logging.DEBUG):
         self.print_red('')
