@@ -6,8 +6,7 @@ Base class for app root controller
 
 import logging
 from dptools.utilities.applogger import AppLogger
-from dptools.utilities import queueconsumer
-from dptools.tkcomponents.baseapp import basepanelview
+from dptools.tkcomponents.baseapp import basepanelview, queueconsumer
 
 
 class BaseController(queueconsumer.QueueConsumer):
@@ -25,6 +24,9 @@ class BaseController(queueconsumer.QueueConsumer):
     def add_widget_right_panel(self, component_package):
         output = component_package.register_widget(self.root, self.root_view.add_tab_to_right_panel)
         return output
+
+    def check_payload(self, payload):
+        raise NotImplementedError
 
     def handle_queue_payload(self, payload):
         self.log.debug("Received queue payload: " + str(payload))

@@ -7,7 +7,7 @@ Copyright (C) 2020 Disappeer Labs
 License: GPLv3
 """
 
-from dptools.utilities import queueconsumer
+from dptools.tkcomponents.baseapp import queueconsumer
 from dptools.utilities.applogger import method_log
 from dptools.tkcomponents.toyapp.controllers import basecontroller
 

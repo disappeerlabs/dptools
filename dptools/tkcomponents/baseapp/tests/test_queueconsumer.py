@@ -10,7 +10,7 @@ License: GPLv3
 import unittest
 import queue
 from unittest.mock import MagicMock, patch
-from dptools.utilities import queueconsumer
+from dptools.tkcomponents.baseapp import queueconsumer
 
 
 class TestImportsAndVars(unittest.TestCase):
@@ -30,6 +30,17 @@ class ConcreteQueueConsumer(queueconsumer.QueueConsumer):
 
     def handle_queue_payload_error(self, payload):
         raise NotImplementedError
+
+    def check_payload(self, payload):
+        if not isinstance(payload, dict):
+            self.log.error("{}-QueueConsumer payload of type {} is not dict: {}".format(type(self).__name__, type(payload), payload))
+            return False
+        try:
+            desc = payload['desc']
+        except KeyError as err:
+            self.log.error("{}-QueueConsumer, malformed payload: {}, {}".format(type(self).__name__, err, payload))
+            return False
+        return payload
 
 
 class TestQueueConsumerClassBasics(unittest.TestCase):

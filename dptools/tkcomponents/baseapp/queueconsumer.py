@@ -9,12 +9,11 @@ Child classes must implement:
 Child classes should implement:
     - handle_queue_payload
     - handle_queue_payload_error
+    - check_payload
 
 Queue Consumer presumes that queue payloads are:
-    - dictionaries
-    - dictionary has key for 'desc'
-    - TODO: Determine if payload should be its own object
-        - e.g. class of type ConsumablePayload
+    - understood by child class implementations
+    -
 
 Copyright (C) 2020 Disappeer Labs
 License: GPLv3
@@ -48,15 +47,7 @@ class QueueConsumer:
             self.handle_queue_payload_error(payload)
 
     def check_payload(self, payload):
-        if not isinstance(payload, dict):
-            self.log.error("{}-QueueConsumer payload of type {} is not dict: {}".format(type(self).__name__, type(payload), payload))
-            return False
-        try:
-            desc = payload['desc']
-        except KeyError as err:
-            self.log.error("{}-QueueConsumer, malformed payload: {}, {}".format(type(self).__name__, err, payload))
-            return False
-        return payload
+        raise NotImplementedError
 
     def handle_queue_payload(self, payload):
         raise NotImplementedError

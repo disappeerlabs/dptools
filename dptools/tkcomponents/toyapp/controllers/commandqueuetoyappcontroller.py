@@ -8,7 +8,7 @@ License: GPLv3
 """
 import dptools.commands.checksanity.checksanitycommand
 from dptools.tkcomponents.toyapp import toyapp
-from dptools.utilities import queueconsumer
+from dptools.tkcomponents.baseapp import queueconsumer
 from dptools.tkcomponents.toyapp.controllers import basecontroller
 from dptools.commands import checksanity
 
