@@ -72,3 +72,10 @@ class DebugFrame(tkinter.Frame):
         """
         self.debug_text_box.insert('end', msg + "\n")
         self.debug_text_box.see('end')
+
+    def get_text(self):
+        """
+        :return: all current contents of text area
+        """
+        result = self.debug_text_box.get('1.0', 'end')
+        return result

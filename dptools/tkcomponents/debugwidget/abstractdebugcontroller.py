@@ -53,3 +53,6 @@ class AbstractDebugController(metaclass=abc.ABCMeta):
 
     def append_to_textbox(self, msg):
         self.view.append_to_debug(msg)
+
+    def get_text_from_textbox(self):
+        return self.view.get_text()
