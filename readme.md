@@ -11,7 +11,7 @@ such as the Disappeer rebuild.
 
 - utlities
     - applogger
-      ```
+      ```python 
       # initialize app logger at program launch 
       log = AppLogger(AppLogger.name).create()
       # access app logger in any subsequent module
@@ -35,10 +35,10 @@ such as the Disappeer rebuild.
         - baseapp
         - debugwidget
         - popuplauncher
-            ```
-            from dptools.tkcomponents.popuplauncher import launch_popup, alertbox
-            r = launch_popup(alertbox, tk_root, "is this thing on?")
-            ```
+        ```python 
+        from dptools.tkcomponents.popuplauncher import launch_popup, alertbox
+        r = launch_popup(alertbox, tk_root, "is this thing on?")
+        ```
     - db interface
  - etc.
  
