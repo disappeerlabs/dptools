@@ -10,6 +10,7 @@ License: GPLv3
 import unittest
 from unittest.mock import MagicMock
 from dptools.commands import abstracts
+from dptools.tkcomponents.baseapp.queueconsumer import QueueConsumer
 
 
 class ConcreteCommand(abstracts.AbstractCommand):
@@ -115,3 +116,27 @@ class TestCreateCallbackFunction(unittest.TestCase):
     def test_input_method_called_when_handle_called(self):
         self.output.handle()
         self.assertTrue(self.mock_input.called)
+
+
+class MockCaller:
+
+    def __init__(self, val):
+        self.val = val
+        self.destination_queue = MagicMock()
+
+    @abstracts.handle_put_to_queue()
+    def decorated_method(self):
+        return self.val
+
+
+class TestHandlePutToQueueDecorator(unittest.TestCase):
+
+    def setUp(self):
+        self.target_value = 'j46w5het'
+        self.mock_caller = MockCaller(self.target_value)
+
+    def test_calling_decorated_method_puts_returned_val_to_destination_queue(self):
+        sub = self.mock_caller.destination_queue.put = MagicMock()
+        self.mock_caller.decorated_method()
+        self.assertTrue(sub.called)
+        sub.assert_called_with(self.target_value)
