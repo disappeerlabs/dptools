@@ -11,13 +11,13 @@ such as the Disappeer rebuild.
 
 - utlities
     - applogger
-      ```python 
-      # initialize app logger at program launch 
-      log = AppLogger(AppLogger.name).create()
-      # access app logger in any subsequent module
-      import logging
-      log = logging.getLogger(AppLogger.name) 
-      ```
+        ```python 
+        # initialize app logger at program launch 
+        log = AppLogger(AppLogger.name).create()
+        # access app logger in any subsequent module
+        import logging
+        log = logging.getLogger(AppLogger.name) 
+        ```
     - observable
 - subsystems
     - gpg 
@@ -35,10 +35,10 @@ such as the Disappeer rebuild.
         - baseapp
         - debugwidget
         - popuplauncher
-        ```python 
-        from dptools.tkcomponents.popuplauncher import launch_popup, alertbox
-        r = launch_popup(alertbox, tk_root, "is this thing on?")
-        ```
+            ```python 
+            from dptools.tkcomponents.popuplauncher import launch_popup, alertbox
+            r = launch_popup(alertbox, tk_root, "is this thing on?")
+            ```
     - db interface
  - etc.
  
