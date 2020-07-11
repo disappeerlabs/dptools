@@ -15,6 +15,7 @@ License: GPLv3
 
 
 def launch_popup(popup_widget, *args):
+    # TODO: add tests for this functionality
     """
     :param popup_widget: the package module for the target popup you wish to launch
     :param args: popup_widget package/

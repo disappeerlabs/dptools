@@ -1,32 +1,40 @@
 # Disappeer Tools
 
-Attempt at a library to store independent, and independently tested 
-components, systems and subsystems developed for the Disappeer project.
+Library for independent and independently tested components, systems 
+and subsystems extracted from the Disappeer project.
 
-The goal is a library that has tools and components that can be
-imported into any future project.
+The goal is a library that has tools and components 
+that can be imported into and leveraged by any future project 
+such as the Disappeer rebuild. 
 
-Examples:
+## Inventory
 
 - utlities
     - applogger
     - observable
-    - queueconsumer
 - subsystems
     - gpg 
+        - client
+        - agents
     - networking
-    - tornet
-    - command client/server
+        - torproxy
+        - smackprotocol
+        - client/server abstracts
+    - command abstracts
+        - command, handler, result
+        - integration with queue consumer
+    - tkcomponents
+        - queue consumer
+        - baseapp
+        - debugwidget
+        - popuplauncher
+    - db interface
  - etc.
  
- To be used as basis for planned DP rebuild. 
  
- # Notes
+ ## Tests
  
 Add slow flag to run all tests:
  
 `slow=1 python -m unittest` 
  
-Experiment with the toyapp in tkcomponents, `cd` into `dptools/tkcomponents/toyapp`:
-
-`python toyapp.py`
