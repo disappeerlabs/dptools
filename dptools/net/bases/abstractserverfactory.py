@@ -38,11 +38,13 @@ class AbstractServerFactory(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def request_handler_obj(self):
+        # TODO: this is misnamed, returns class not object
         raise NotImplementedError
 
     @property
     @abc.abstractmethod
     def server_obj(self):
+        # TODO: this is misnamed, returns class not object
         raise NotImplementedError
 
     def build(self):
