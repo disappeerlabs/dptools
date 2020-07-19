@@ -60,6 +60,10 @@ class SmackServerRequestHandler(socketserver.BaseRequestHandler):
     @abstracts.handle_put_to_queue()
     def handle(self):
         request = self.protocol.handle_request()
+        # TODO: need to return result object that is particular to smack server
+        #   - class could be in this module
+        #   - module will then need a register function (cf. command pattern)
+        #       - so that the result can be handled by queue consumer
         final = SmackClientSendResult(result=request)
         return final
 
