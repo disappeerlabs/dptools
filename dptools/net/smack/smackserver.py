@@ -17,8 +17,10 @@ License: GPLv3
 """
 
 import socketserver
+from dptools.commands import abstracts
 from dptools.net.bases import abstractserverfactory
 from dptools.net.protocols import ackprotocol
+from dptools.commands.net.smackclientsend.smackclientsendcommand import SmackClientSendResult
 
 
 class SmackServerFactory(abstractserverfactory.AbstractServerFactory):
@@ -55,10 +57,11 @@ class SmackServerRequestHandler(socketserver.BaseRequestHandler):
         self.destination_queue = self.server.queue
         self.protocol = ackprotocol.ACKProtocol(self.request)
 
+    @abstracts.handle_put_to_queue()
     def handle(self):
-        # TODO: add put to queue or remove queue from setup
         request = self.protocol.handle_request()
-        return request
+        final = SmackClientSendResult(result=request)
+        return final
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):

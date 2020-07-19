@@ -13,6 +13,7 @@ import socketserver
 from dptools.net.smack import smackserver
 from dptools.net.bases import abstractserverfactory
 from dptools.net.protocols import ackprotocol
+from dptools.commands.net.smackclientsend.smackclientsendcommand import SmackClientSendResult
 
 
 class TestSmackServerFactory(unittest.TestCase):
@@ -92,12 +93,25 @@ class TestSmackServerRequestHandler(unittest.TestCase):
         self.x.setup()
         self.assertEqual(self.x.destination_queue, self.x.server.queue)
 
-    def test_handle_method_calls_handle_on_protocol_and_returns_val(self):
+    def test_handle_method_calls_handle_on_protocol_and_returns_val_in_smack_result(self):
         val = 'mock_return_value_string'
         self.x.protocol.handle_request = MagicMock(return_value=val)
         result = self.x.handle()
         self.assertTrue(self.x.protocol.handle_request.called)
-        self.assertEqual(val, result)
+        self.assertEqual(val, result.result)
+        self.assertIsInstance(result, SmackClientSendResult)
+
+    @patch('dptools.net.protocols.ackprotocol.ACKProtocol')
+    def test_handle_method_return_val_is_put_to_queue(self, target):
+        self.x.setup()
+        mock_queue_method = self.x.destination_queue.put = MagicMock()
+        val = 'mock_return_value_string'
+        self.x.protocol.handle_request = MagicMock(return_value=val)
+        result = self.x.handle()
+        self.assertTrue(self.x.protocol.handle_request.called)
+        self.assertEqual(val, result.result)
+        self.assertIsInstance(result, SmackClientSendResult)
+        self.assertTrue(mock_queue_method.called)
 
 
 class TestThreadedTCPServerBasics(unittest.TestCase):
