@@ -20,7 +20,7 @@ import socketserver
 from dptools.commands import abstracts
 from dptools.net.bases import abstractserverfactory
 from dptools.net.protocols import ackprotocol
-from dptools.commands.net.smackclientsend.smackclientsendcommand import SmackClientSendResult
+from dptools.commands.net.smackserverreceive.smackserverreceivecommand import SmackServerReceiveResult
 
 
 class SmackServerFactory(abstractserverfactory.AbstractServerFactory):
@@ -64,7 +64,7 @@ class SmackServerRequestHandler(socketserver.BaseRequestHandler):
         #   - class could be in this module
         #   - module will then need a register function (cf. command pattern)
         #       - so that the result can be handled by queue consumer
-        final = SmackClientSendResult(result=request)
+        final = SmackServerReceiveResult(result=request)
         return final
 
 

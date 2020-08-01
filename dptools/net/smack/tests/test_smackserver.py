@@ -13,7 +13,7 @@ import socketserver
 from dptools.net.smack import smackserver
 from dptools.net.bases import abstractserverfactory
 from dptools.net.protocols import ackprotocol
-from dptools.commands.net.smackclientsend.smackclientsendcommand import SmackClientSendResult
+from dptools.commands.net.smackserverreceive.smackserverreceivecommand import SmackServerReceiveResult
 
 
 class TestSmackServerFactory(unittest.TestCase):
@@ -99,7 +99,7 @@ class TestSmackServerRequestHandler(unittest.TestCase):
         result = self.x.handle()
         self.assertTrue(self.x.protocol.handle_request.called)
         self.assertEqual(val, result.result)
-        self.assertIsInstance(result, SmackClientSendResult)
+        self.assertIsInstance(result, SmackServerReceiveResult)
 
     @patch('dptools.net.protocols.ackprotocol.ACKProtocol')
     def test_handle_method_return_val_is_put_to_queue(self, target):
@@ -110,7 +110,7 @@ class TestSmackServerRequestHandler(unittest.TestCase):
         result = self.x.handle()
         self.assertTrue(self.x.protocol.handle_request.called)
         self.assertEqual(val, result.result)
-        self.assertIsInstance(result, SmackClientSendResult)
+        self.assertIsInstance(result, SmackServerReceiveResult)
         self.assertTrue(mock_queue_method.called)
 
 
