@@ -42,3 +42,21 @@ class TestBaseController(unittest.TestCase):
         o = self.x.register_widget(mock_component, mock_view_method, mock_model_method)
         target_method.assert_called_with(self.mock_root, mock_view_method, mock_model_method)
         self.assertEqual(o, target_return_value)
+    
+    def test_add_widget_left_panel(self):
+        mock_component = MagicMock()
+        target_method = self.x.register_widget = MagicMock()
+        target_val = 123456
+        target_method.return_value = target_val
+        o = self.x.add_widget_left_panel(mock_component)
+        target_method.assert_called_with(mock_component, self.x.root_view.add_tab_to_left_panel, self.x.root_model.register_widget_model)
+        self.assertEqual(o, target_method.return_value)
+
+    def test_add_widget_right_panel(self):
+        mock_component = MagicMock()
+        target_method = self.x.register_widget = MagicMock()
+        target_val = 123456
+        target_method.return_value = target_val
+        o = self.x.add_widget_right_panel(mock_component)
+        target_method.assert_called_with(mock_component, self.x.root_view.add_tab_to_right_panel, self.x.root_model.register_widget_model)
+        self.assertEqual(o, target_method.return_value)

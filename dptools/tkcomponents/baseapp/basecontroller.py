@@ -17,15 +17,12 @@ class BaseController(queueconsumer.QueueConsumer):
         self.root = root
         self.root_view = self.set_root_view()
         self.root_model = self.set_root_model()
-        self.log = logging.getLogger(AppLogger.name)
 
     def add_widget_left_panel(self, component_package):
-        output = component_package.register_widget(self.root, self.root_view.add_tab_to_left_panel)
-        return output
+        return self.register_widget(component_package, self.root_view.add_tab_to_left_panel, self.root_model.register_widget_model)
 
     def add_widget_right_panel(self, component_package):
-        output = component_package.register_widget(self.root, self.root_view.add_tab_to_right_panel)
-        return output
+        return self.register_widget(component_package, self.root_view.add_tab_to_right_panel, self.root_model.register_widget_model)
 
     def register_widget(self, component_package, attach_view_method, attach_model_method):
         return component_package.register_widget(self.root, attach_view_method, attach_model_method)
